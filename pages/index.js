@@ -3,25 +3,38 @@ import Image from "next/image"
 import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import axios from "axios"
+import { useEffect, useState } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
-	const submitHandler = (event) => {
+	const [file, setFile] = useState()
+
+	const submitHandler = async (event) => {
 		event.preventDefault()
-
-		const data = new FormData(event.target)
-		data.set("fileupload", data.get("fileupload"))
-
-		const config = {
-			headers: { "content-type": "multipart/form-data" },
+		console.log(file)
+		const formData = new FormData()
+		formData.append("file", file)
+		try {
+			const response = await fetch("/api/whisper", {
+				method: "POST",
+				body: formData,
+			})
+			const { text, error } = await response.json()
+			if (response.ok) {
+				console.log(text)
+			}
+		} catch (error) {
+			console.log("Error:", error)
 		}
-
-		axios
-			.post("/api/whisper", data, config)
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err))
 	}
+
+	const changeFile = (event) => {
+		console.log(event.target.files)
+		setFile(event.target.files[0])
+	}
+
+	useEffect(() => console.log("refreshed"))
 
 	return (
 		<>
@@ -31,34 +44,21 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<main className={styles.main}>
-				<div className={styles.description}>
-					<p>
-						Get started by editing&nbsp;
-						<code className={styles.code}>pages/index.js</code>
-					</p>
-					<div>
-						<a
-							href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							By{" "}
-							<Image
-								src='/vercel.svg'
-								alt='Vercel Logo'
-								className={styles.vercelLogo}
-								width={100}
-								height={24}
-								priority
-							/>
-						</a>
-					</div>
-				</div>
-
 				<div className={styles.center}>
-					<form onSubmit={submitHandler}>
+					<form
+						encType='multipart/form-data'
+						// action='/api/whisper'
+						// method='post'
+						onSubmit={submitHandler}
+					>
 						<label htmlFor='fileupload'>Upload Audio file</label>
-						<input required type='file' name='fileupload' accept='audio/*' />
+						<input
+							required
+							type='file'
+							name='file'
+							accept='audio/*'
+							onChange={changeFile}
+						/>
 						<button type='submit'>Submit</button>
 					</form>
 				</div>
