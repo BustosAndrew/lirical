@@ -3,38 +3,39 @@ import Image from "next/image"
 import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
 	const [file, setFile] = useState()
+	const form = useRef()
 
-	// const submitHandler = async (event) => {
-	// 	event.preventDefault()
-	// 	console.log(file)
-	// 	const formData = new FormData()
-	// 	formData.append("file", file)
-	// 	try {
-	// 		const response = await fetch("/api/whisper", {
-	// 			method: "POST",
-	// 			body: formData,
-	// 		})
-	// 		const { text, error } = await response.json()
-	// 		if (response.ok) {
-	// 			console.log(text)
-	// 		}
-	// 	} catch (error) {
-	// 		console.log("Error:", error)
-	// 	}
-	// }
+	const submitHandler = async (event) => {
+		event.preventDefault()
+
+		const formData = new FormData()
+		formData.append("file", file, file.name)
+		console.log(file.type)
+
+		try {
+			const response = await fetch("/api/whisper", {
+				method: "POST",
+				body: formData,
+			})
+			const { text, error } = await response.json()
+			if (response.ok) {
+				console.log(text)
+			} else console.log(error)
+		} catch (error) {
+			console.log("Error:", error)
+		}
+	}
 
 	const changeFile = (event) => {
 		console.log(event.target.files)
 		setFile(event.target.files[0])
 	}
-
-	useEffect(() => console.log("refreshed"))
 
 	return (
 		<>
@@ -47,9 +48,8 @@ export default function Home() {
 				<div className={styles.center}>
 					<form
 						encType='multipart/form-data'
-						action='/api/whisper'
-						method='post'
-						//onSubmit={submitHandler}
+						ref={form}
+						onSubmit={submitHandler}
 					>
 						<label htmlFor='fileupload'>Upload Audio file</label>
 						<input

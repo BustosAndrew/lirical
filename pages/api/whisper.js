@@ -21,10 +21,14 @@ export default async function handler(req, res) {
 	const form = new formidable.IncomingForm()
 
 	form.parse(req, async (err, fields, files) => {
-		if (err) return reject(err)
+		if (err) return res.status(500)
 		const file = files.file
 		const formData = new FormData()
-		formData.append("file", fs.createReadStream(file.filepath))
+		formData.append(
+			"file",
+			fs.createReadStream(file.filepath),
+			file.originalFilename
+		)
 		formData.append("model", model)
 
 		const response = await fetch(
@@ -41,7 +45,7 @@ export default async function handler(req, res) {
 
 		const { text, error } = await response.json()
 		if (response.ok) {
-			res.status(200).json({ text: text })
+			res.status(200).send({ text: text })
 		} else {
 			console.log("OPEN AI ERROR:")
 			console.log(error.message)
@@ -49,5 +53,5 @@ export default async function handler(req, res) {
 		}
 	})
 
-	res.status(200).end()
+	//res.status(200).json({ res: "end req" })
 }
