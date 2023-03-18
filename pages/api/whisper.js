@@ -1,8 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 const dotenv = require("dotenv").config()
 const fs = require("fs")
 const FormData = require("form-data")
-import { withFileUpload } from "next-multiparty"
+import formidable from "formidable"
 
 export const config = {
 	api: {
@@ -19,30 +18,36 @@ export default async function handler(req, res) {
 		return
 	}
 
-	const file = req.file
-	console.log(file)
-	const formData = new FormData()
-	formData.append("file", file)
-	formData.append("model", model)
+	const form = new formidable.IncomingForm()
 
-	const response = await fetch(
-		"https://api.openai.com/v1/audio/transcriptions",
-		{
-			method: "POST",
-			headers: {
-				...formData.getHeaders(),
-				Authorization: `Bearer ${process.env.key}`,
-			},
-			body: formData,
+	form.parse(req, async (err, fields, files) => {
+		if (err) return reject(err)
+		const file = files.file
+		const formData = new FormData()
+		formData.append("file", fs.createReadStream(file.filepath))
+		formData.append("model", model)
+
+		const response = await fetch(
+			"https://api.openai.com/v1/audio/transcriptions",
+			{
+				method: "POST",
+				headers: {
+					...formData.getHeaders(),
+					Authorization: `Bearer ${key}`,
+				},
+				body: formData,
+			}
+		)
+
+		const { text, error } = await response.json()
+		if (response.ok) {
+			res.status(200).json({ text: text })
+		} else {
+			console.log("OPEN AI ERROR:")
+			console.log(error.message)
+			res.status(400).send(new Error())
 		}
-	)
+	})
 
-	const { text, error } = await response.json()
-	if (response.ok) {
-		res.status(200).json({ text: text })
-	} else {
-		console.log("OPEN AI ERROR:")
-		console.log(error.message)
-		res.status(400).send(new Error())
-	}
+	res.status(200).end()
 }
