@@ -4,14 +4,12 @@ import { useEffect, useRef, useState } from "react"
 
 export default function Home() {
 	const [file, setFile] = useState()
-	const form = useRef()
 
 	const submitHandler = async (event) => {
 		event.preventDefault()
 
 		const formData = new FormData()
 		formData.append("file", file, file.name)
-		console.log(file.type)
 
 		try {
 			const response = await fetch("/api/whisper", {
@@ -28,7 +26,6 @@ export default function Home() {
 	}
 
 	const changeFile = (event) => {
-		console.log(event.target.files)
 		setFile(event.target.files[0])
 	}
 
@@ -41,11 +38,7 @@ export default function Home() {
 			</Head>
 			<main className={styles.main}>
 				<div className={styles.center}>
-					<form
-						encType='multipart/form-data'
-						ref={form}
-						onSubmit={submitHandler}
-					>
+					<form encType='multipart/form-data' onSubmit={submitHandler}>
 						<label htmlFor='fileupload'>Upload Audio file</label>
 						<input
 							required
