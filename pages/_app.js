@@ -13,6 +13,17 @@ const colors = {
 	},
 }
 
+// const Select = {
+// 	parts: ["field"],
+// 	baseStyle: {
+// 		field: {
+// 			_placeholder: {
+// 				color: "brand.800",
+// 			},
+// 		},
+// 	},
+// }
+
 const CustomSteps = {
 	...Steps,
 	baseStyle: (props) => {

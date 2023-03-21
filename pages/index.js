@@ -1,51 +1,35 @@
 import Head from "next/head"
-import styles from "@/styles/Home.module.css"
-import { useEffect, useRef, useState } from "react"
-import {
-	Button,
-	Input,
-	Heading,
-	VStack,
-	Flex,
-	Center,
-	background,
-} from "@chakra-ui/react"
+import { useState } from "react"
+import { Button, Heading, Flex, Center } from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
+import { CustomMenu } from "../comps/CustomMenu"
+import { Form } from "@/comps/Form"
 
 const steps = [
-	{ label: "Step 1", content: { text: "one" } },
-	{ label: "Step 2", content: { text: "two" } },
-	{ label: "Step 3", content: { text: "three" } },
+	{
+		label: "Step 1",
+		content: function (val) {
+			return <CustomMenu changeInputType={val} />
+		},
+	},
+	{
+		label: "Step 2",
+		content: function (val) {
+			return <Form input={val} />
+		},
+	},
+	{ label: "Step 3", content: { html: "three" } },
 ]
 
 export default function Home() {
-	const [file, setFile] = useState()
+	const [input, setInput] = useState("")
 	const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
 		initialStep: 0,
 	})
 
-	const submitHandler = async (event) => {
-		event.preventDefault()
-
-		const formData = new FormData()
-		formData.append("file", file, file.name)
-
-		try {
-			const response = await fetch("/api/whisper", {
-				method: "POST",
-				body: formData,
-			})
-			const { text, error } = await response.json()
-			if (response.ok) {
-				console.log(text)
-			} else console.log(error)
-		} catch (error) {
-			console.log("Error:", error)
-		}
-	}
-
-	const changeFile = (event) => {
-		setFile(event.target.files[0])
+	const changeInputType = (val) => {
+		console.log(val)
+		setInput(val)
 	}
 
 	return (
@@ -57,34 +41,18 @@ export default function Home() {
 			</Head>
 			<Flex justifyContent='center' alignContent='center' height='100vh'>
 				<Center>
-					<Flex flexDir='column' width='100%'>
-						<Steps activeStep={activeStep}>
-							{steps.map(({ label, content }) => (
+					<Flex flexDir='column' width='100%' textAlign='center'>
+						<Heading textAlign='center' color='brand.800'>
+							Upload Audio
+						</Heading>
+						<Steps py={8} activeStep={activeStep}>
+							{steps.map(({ label }, indx) => (
 								<Step key={label}>
-									{/* {content.text} */}
-									<form encType='multipart/form-data' onSubmit={submitHandler}>
-										<VStack gap={2}>
-											<Heading color='brand.800'>Upload Audio</Heading>
-											<Input
-												required
-												type='file'
-												name='file'
-												accept='audio/*'
-												size='md'
-												color='brand.800'
-												onChange={changeFile}
-												borderColor='brand.800'
-												className={styles.upload}
-											/>
-											<Button
-												_hover={{ background: "#f1ecaf" }}
-												type='submit'
-												bgColor='brand.900'
-											>
-												Submit
-											</Button>
-										</VStack>
-									</form>
+									{indx === 0
+										? steps[0].content(changeInputType)
+										: "text" || indx === 1
+										? steps[1].content(input)
+										: "text" || "text"}
 								</Step>
 							))}
 						</Steps>
@@ -93,7 +61,7 @@ export default function Home() {
 								<Button
 									bg='brand.900'
 									mx='auto'
-									size='sm'
+									size='md'
 									onClick={reset}
 									_hover={{ background: "#f1ecaf" }}
 								>
@@ -126,7 +94,7 @@ export default function Home() {
 									size='sm'
 									bg='brand.900'
 									onClick={nextStep}
-									_hover={{ background: "#f1ecaf" }}
+									_hover={{ background: "brand.800" }}
 								>
 									{activeStep === steps.length - 1 ? "Finish" : "Next"}
 								</Button>
