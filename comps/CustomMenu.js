@@ -1,10 +1,12 @@
 import { Menu, MenuButton, MenuItem, MenuList, Button } from "@chakra-ui/react"
 import { ChevronDownIcon } from "@chakra-ui/icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const CustomMenu = ({ changeInputType }) => {
-	const passedIn = changeInputType
 	const [menuVal, setMenuVal] = useState("Select Input Type")
+
+	useEffect(() => changeInputType(""), [])
+
 	return (
 		<Menu>
 			<MenuButton

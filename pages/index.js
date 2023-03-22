@@ -95,6 +95,7 @@ export default function Home() {
 									bg='brand.900'
 									onClick={nextStep}
 									_hover={{ background: "brand.800" }}
+									isDisabled={!input}
 								>
 									{activeStep === steps.length - 1 ? "Finish" : "Next"}
 								</Button>
