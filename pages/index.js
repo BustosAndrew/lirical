@@ -39,70 +39,75 @@ export default function Home() {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<Flex justifyContent='center' alignContent='center' height='100vh'>
-				<Center>
-					<Flex flexDir='column' width='100%' textAlign='center'>
-						<Heading textAlign='center' color='brand.800'>
-							Upload Audio
-						</Heading>
-						<Steps py={8} activeStep={activeStep}>
-							{steps.map(({ label }, indx) => (
-								<Step key={label}>
-									{indx === 0
-										? steps[0].content(changeInputType)
-										: "text" || indx === 1
-										? steps[1].content(input)
-										: "text" || "text"}
-								</Step>
-							))}
-						</Steps>
-						{activeStep === steps.length ? (
-							<Flex p={4}>
-								<Button
-									bg='brand.900'
-									mx='auto'
-									size='md'
-									onClick={reset}
-									_hover={{ background: "#f1ecaf" }}
-								>
-									Reset
-								</Button>
-							</Flex>
-						) : (
-							<Flex width='100%' justify='flex-end'>
-								<Button
-									isDisabled={activeStep === 0}
-									mr={4}
-									onClick={prevStep}
-									size='sm'
-									variant='ghost'
-									_disabled={{
-										cursor: "not-allowed",
-										opacity: 0.2,
-									}}
-									_hover={
-										activeStep !== 0 && {
-											background: "brand.900",
-											color: "black",
-										}
+			<Flex h='100vh' justifyContent='center' alignItems='center'>
+				<Flex
+					justifyContent='center'
+					alignItems='center'
+					flexDir='column'
+					textAlign='center'
+					m='auto'
+					pb={5}
+				>
+					<Steps w='sm' p={5} activeStep={activeStep}>
+						{steps.map(({ label }, indx) => (
+							<Step key={label}>
+								<Heading textAlign='center' color='brand.800'>
+									Upload Audio
+								</Heading>
+								{indx === 0
+									? steps[0].content(changeInputType)
+									: "text" || indx === 1
+									? steps[1].content(input)
+									: "text" || "text"}
+							</Step>
+						))}
+					</Steps>
+					{activeStep === steps.length ? (
+						<Flex p={4}>
+							<Button
+								bg='brand.900'
+								mx='auto'
+								size='md'
+								onClick={reset}
+								_hover={{ background: "#f1ecaf" }}
+							>
+								Reset
+							</Button>
+						</Flex>
+					) : (
+						<Flex width='100%' justify='flex-end' pr={5}>
+							<Button
+								isDisabled={activeStep === 0}
+								mr={4}
+								onClick={prevStep}
+								size='sm'
+								variant='ghost'
+								_disabled={{
+									cursor: "not-allowed",
+									opacity: 0.2,
+								}}
+								_hover={
+									activeStep !== 0 && {
+										background: "brand.900",
+										color: "black",
 									}
-									color='brand.800'
-								>
-									Prev
-								</Button>
-								<Button
-									size='sm'
-									bg='brand.900'
-									onClick={nextStep}
-									_hover={{ background: "brand.800" }}
-									isDisabled={!input}
-								>
-									{activeStep === steps.length - 1 ? "Finish" : "Next"}
-								</Button>
-							</Flex>
-						)}
-					</Flex>
-				</Center>
+								}
+								color='brand.800'
+							>
+								Prev
+							</Button>
+							<Button
+								size='sm'
+								bg='brand.900'
+								onClick={nextStep}
+								_hover={{ background: "brand.800" }}
+								isDisabled={!input}
+							>
+								{activeStep === steps.length - 1 ? "Finish" : "Next"}
+							</Button>
+						</Flex>
+					)}
+				</Flex>
 			</Flex>
 		</>
 	)

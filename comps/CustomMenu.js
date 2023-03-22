@@ -16,6 +16,7 @@ export const CustomMenu = ({ changeInputType }) => {
 				_hover={{ background: "brand.800" }}
 				_active={{ background: "brand.800" }}
 				mb={5}
+				size='lg'
 			>
 				{(menuVal === "text" && "Text") ||
 					(menuVal === "recording" && "New Recording") ||

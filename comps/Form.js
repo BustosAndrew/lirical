@@ -29,6 +29,8 @@ export const Form = ({ input }) => {
 				<Textarea
 					color='brand.800'
 					placeholder='Type your lyrics here.'
+					w='sm'
+					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 				></Textarea>
 			)
 		else if (val === "recording")
@@ -37,6 +39,7 @@ export const Form = ({ input }) => {
 					<Textarea
 						color='brand.800'
 						placeholder='This text area is editable...'
+						w={["17rem", "sm"]}
 					></Textarea>
 					<Button>Start/Stop Recording</Button>
 				</>
