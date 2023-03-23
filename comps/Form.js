@@ -1,10 +1,44 @@
-import { Input, Button, VStack, Textarea } from "@chakra-ui/react"
-import { useState } from "react"
+import { Input, Button, VStack, Textarea, HStack } from "@chakra-ui/react"
+import { useEffect, useRef, useState } from "react"
+import SpeechRecognition, {
+	useSpeechRecognition,
+} from "react-speech-recognition"
 import styles from "@/styles/Form.module.css"
 
 export const Form = ({ input }) => {
 	const [file, setFile] = useState()
 	const [recording, setRecording] = useState(false)
+	const [lyrics, setLyrics] = useState("")
+	const { transcript, resetTranscript } = useSpeechRecognition()
+
+	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+		return null
+	}
+
+	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+		console.log(
+			"Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
+		)
+	}
+	const toggleListen = () => {
+		if (!recording) {
+			SpeechRecognition.startListening({
+				continuous: true,
+				language: "en-US",
+			})
+			setRecording(!recording)
+		} else {
+			SpeechRecognition.stopListening()
+			setRecording(!recording)
+		}
+	}
+
+	const restart = () => {
+		SpeechRecognition.stopListening()
+		setRecording(false)
+		resetTranscript()
+		setLyrics("")
+	}
 
 	const changeFile = (event) => {
 		setFile(event.target.files[0])
@@ -43,10 +77,17 @@ export const Form = ({ input }) => {
 						color='brand.800'
 						placeholder='This text area is editable...'
 						w={["17rem", "sm"]}
+						value={lyrics || transcript}
+						onChange={(e) => setLyrics(e.target.value)}
 					></Textarea>
-					<Button onClick={() => setRecording(!recording)} bg='brand.800'>
-						{!recording ? "Start" : "Stop"} Recording
-					</Button>
+					<HStack>
+						<Button onClick={toggleListen} bg='brand.800'>
+							{!recording ? "Start" : "Stop"} Recording
+						</Button>
+						<Button onClick={restart} bg='brand.800'>
+							Reset
+						</Button>
+					</HStack>
 				</>
 			)
 	}
