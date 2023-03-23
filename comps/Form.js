@@ -4,6 +4,7 @@ import styles from "@/styles/Form.module.css"
 
 export const Form = ({ input }) => {
 	const [file, setFile] = useState()
+	const [recording, setRecording] = useState(false)
 
 	const changeFile = (event) => {
 		setFile(event.target.files[0])
@@ -27,6 +28,7 @@ export const Form = ({ input }) => {
 		else if (val === "text")
 			return (
 				<Textarea
+					rows={8}
 					color='brand.800'
 					placeholder='Type your lyrics here.'
 					w='sm'
@@ -37,11 +39,14 @@ export const Form = ({ input }) => {
 			return (
 				<>
 					<Textarea
+						rows={8}
 						color='brand.800'
 						placeholder='This text area is editable...'
 						w={["17rem", "sm"]}
 					></Textarea>
-					<Button>Start/Stop Recording</Button>
+					<Button onClick={() => setRecording(!recording)} bg='brand.800'>
+						{!recording ? "Start" : "Stop"} Recording
+					</Button>
 				</>
 			)
 	}
