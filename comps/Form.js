@@ -126,9 +126,11 @@ export const Form = ({ input }) => {
 				const { text, error } = await response.json()
 				if (response.ok) {
 					console.log(text)
+					setLyrics(text)
 				} else console.log(error)
 			} catch (error) {
-				console.log("Error:", error)
+				console.log("Error: ", error)
+				setLyrics("Error: " + error)
 			}
 		}
 	}
