@@ -47,17 +47,37 @@ export const Form = ({ input }) => {
 	const changeType = (val) => {
 		if (val === "file")
 			return (
-				<Input
-					required
-					type='file'
-					name='file'
-					accept='audio/*'
-					color='brand.800'
-					onChange={changeFile}
-					borderColor='brand.800'
-					className={styles.upload}
-					maxW={"17rem"}
-				/>
+				<>
+					<HStack>
+						<Input
+							required
+							type='file'
+							name='file'
+							accept='audio/*'
+							color='brand.800'
+							onChange={changeFile}
+							borderColor='brand.900'
+							_hover={{ borderColor: "brand.800" }}
+							className={styles.upload}
+							maxW={"17rem"}
+						/>
+						<Button
+							_hover={{ background: "brand.800" }}
+							bgColor='brand.900'
+							onClick={transcribe}
+						>
+							Transcribe
+						</Button>
+					</HStack>
+					<Textarea
+						rows={8}
+						color='brand.800'
+						_hover={{ borderColor: "brand.800" }}
+						placeholder='This text area is editable...'
+						w='sm'
+						sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+					></Textarea>
+				</>
 			)
 		else if (val === "text")
 			return (
@@ -92,7 +112,7 @@ export const Form = ({ input }) => {
 			)
 	}
 
-	const submitHandler = async (event) => {
+	const transcribe = async (event) => {
 		event.preventDefault()
 		if (input === "file") {
 			const formData = new FormData()
@@ -112,6 +132,8 @@ export const Form = ({ input }) => {
 			}
 		}
 	}
+
+	const submitHandler = () => {}
 
 	return (
 		<form encType='multipart/form-data' onSubmit={submitHandler}>
