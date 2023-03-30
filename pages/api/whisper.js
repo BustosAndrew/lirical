@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 	const form = new formidable.IncomingForm()
 
 	form.parse(req, async (err, fields, files) => {
-		if (err) return res.status(500)
+		if (err) return res.status(500).send({ error: err })
 		const file = files.file
 		const formData = new FormData()
 		formData.append(
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 		} else {
 			console.log("OPEN AI ERROR:")
 			console.log(error.message)
-			res.status(400).send(error.message)
+			res.status(400).send({ error: error.message })
 		}
 	})
 
