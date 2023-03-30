@@ -22,11 +22,11 @@ export default async function handler(req, res) {
 
 	form.parse(req, async (err, fields, files) => {
 		if (err) return res.status(400).send({ error: "Parse error: " + err })
-		const file = files.file
+		const file = files[0]
 		const formData = new FormData()
 		formData.append(
 			"file",
-			fs.createReadStream(file.path),
+			fs.createReadStream(file.filepath),
 			file.originalFilename
 		)
 		formData.append("model", model)
