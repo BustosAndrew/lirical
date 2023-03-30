@@ -3,11 +3,11 @@ const fs = require("fs")
 const FormData = require("form-data")
 import formidable from "formidable"
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-}
+// export const config = {
+// 	api: {
+// 		bodyParser: false,
+// 	},
+// }
 
 const key = process.env.OPEN_AI_KEY
 const model = "whisper-1"
