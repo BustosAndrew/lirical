@@ -12,6 +12,7 @@ export const Output = ({ output }) => {
 			onChange={(e) => setResult(e.target.value)}
 			w={["17rem", "sm"]}
 			sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+			mb={2}
 		></Textarea>
 	)
 }

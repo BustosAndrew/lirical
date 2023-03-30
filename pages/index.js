@@ -10,19 +10,40 @@ const steps = [
 	{
 		label: "Step 1",
 		content: function (val) {
-			return <CustomMenu changeInputType={val} />
+			return (
+				<>
+					<Heading size='lg' mb={5} textAlign='center' color='brand.800'>
+						Select Input Type
+					</Heading>
+					<CustomMenu changeInputType={val} />
+				</>
+			)
 		},
 	},
 	{
 		label: "Step 2",
 		content: function (val, handler) {
-			return <Form input={val} outputHandler={handler} />
+			return (
+				<>
+					<Heading size='lg' mb={5} textAlign='center' color='brand.800'>
+						Input Your Lyrics
+					</Heading>
+					<Form input={val} outputHandler={handler} />
+				</>
+			)
 		},
 	},
 	{
 		label: "Step 3",
 		content: function (val) {
-			return <Output output={val} />
+			return (
+				<>
+					<Heading size='lg' mb={5} textAlign='center' color='brand.800'>
+						Suggested Lyrics
+					</Heading>
+					<Output output={val} />
+				</>
+			)
 		},
 	},
 ]
@@ -61,9 +82,6 @@ export default function Home() {
 					<Steps w='sm' p={5} activeStep={activeStep}>
 						{steps.map(({ label }, indx) => (
 							<Step key={label}>
-								<Heading textAlign='center' color='brand.800'>
-									Upload Audio
-								</Heading>
 								{(indx === 0 && steps[0].content(changeInputType)) ||
 									(indx === 1 && steps[1].content(input, outputHandler)) ||
 									(indx === 2 && steps[2].content(output))}
