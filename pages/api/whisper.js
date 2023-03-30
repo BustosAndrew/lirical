@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 		const formData = new FormData()
 		formData.append(
 			"file",
-			fs.createReadStream(file.originalFilename),
+			fs.createReadStream(file.path),
 			file.originalFilename
 		)
 		formData.append("model", model)
