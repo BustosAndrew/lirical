@@ -132,9 +132,9 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				const { text, error } = await response.json()
 				if (response.ok) {
 					setLyrics(text)
-				} else setLyrics("Error: " + error)
+				} else setLyrics(error)
 			} catch (error) {
-				setLyrics("Error: " + error)
+				setLyrics("Caught: " + error)
 			}
 		}
 	}
