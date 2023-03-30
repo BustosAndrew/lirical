@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 	const form = new formidable.IncomingForm()
 
 	form.parse(req, async (err, fields, files) => {
-		if (err) return res.status(500).send({ error: err })
+		if (err) return res.status(400).send({ error: err })
 		const file = files.file
 		const formData = new FormData()
 		formData.append(
