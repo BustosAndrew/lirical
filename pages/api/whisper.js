@@ -49,7 +49,7 @@ export default async function handler(req, res) {
 		} else {
 			console.log("OPEN AI ERROR:")
 			console.log(error.message)
-			res.status(400).send({ error: error.message })
+			res.status(400).send({ error: "OPEN AI ERROR: " + error.message })
 		}
 	})
 
