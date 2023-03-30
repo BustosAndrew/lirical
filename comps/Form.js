@@ -135,7 +135,20 @@ export const Form = ({ input }) => {
 		}
 	}
 
-	const submitHandler = () => {}
+	const submitHandler = async () => {
+		try {
+			const response = await fetch("/api/whisper", {
+				method: "POST",
+				body: lyrics,
+			})
+			const { text, error } = await response.json()
+			if (response.ok) {
+				console.log(text)
+			} else console.log(error)
+		} catch (error) {
+			console.log("Error: ", error)
+		}
+	}
 
 	return (
 		<form encType='multipart/form-data' onSubmit={submitHandler}>
