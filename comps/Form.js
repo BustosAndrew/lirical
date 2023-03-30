@@ -74,7 +74,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 						rows={8}
 						color='brand.800'
 						_hover={{ borderColor: "brand.800" }}
-						placeholder='This text area is editable...'
+						placeholder='(25 MB limit. Supported files: mp3, mp4, mpeg, mpga, m4a, wav, and webm)'
 						onChange={(e) => setLyrics(e.target.value)}
 						value={lyrics}
 					></Textarea>
@@ -86,7 +86,6 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					rows={8}
 					color='brand.800'
 					placeholder='Type your lyrics here.'
-					w='sm'
 					_hover={{ borderColor: "brand.800" }}
 					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 					onChange={(e) => setLyrics(e.target.value)}
@@ -99,8 +98,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					<Textarea
 						rows={8}
 						color='brand.800'
-						placeholder='This text area is editable...'
-						w='sm'
+						placeholder='This text area is editable'
 						sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 						value={lyrics || transcript}
 						onChange={(e) => setLyrics(e.target.value)}
