@@ -15,8 +15,8 @@ const steps = [
 	},
 	{
 		label: "Step 2",
-		content: function (val) {
-			return <Form input={val} />
+		content: function (val, handler) {
+			return <Form input={val} outputHandler={handler} />
 		},
 	},
 	{
@@ -29,6 +29,7 @@ const steps = [
 
 export default function Home() {
 	const [input, setInput] = useState("")
+	const [output, setOutput] = useState("")
 	const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
 		initialStep: 0,
 	})
@@ -38,7 +39,10 @@ export default function Home() {
 		setInput(val)
 	}
 
-	const outputHandler = (output) => {}
+	const outputHandler = (output) => {
+		console.log(output)
+		setOutput(output)
+	}
 
 	return (
 		<>
@@ -65,8 +69,10 @@ export default function Home() {
 								{indx === 0
 									? steps[0].content(changeInputType)
 									: "text" || indx === 1
-									? steps[1].content(input)
-									: "text" || "text"}
+									? steps[1].content(input, outputHandler)
+									: "text" || indx === 2
+									? steps[2].content(output)
+									: null}
 							</Step>
 						))}
 					</Steps>

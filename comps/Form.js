@@ -5,7 +5,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition"
 import styles from "@/styles/Form.module.css"
 
-export const Form = ({ input }) => {
+export const Form = ({ input, outputHandler }) => {
 	const [file, setFile] = useState()
 	const [recording, setRecording] = useState(false)
 	const [lyrics, setLyrics] = useState("")
@@ -144,6 +144,7 @@ export const Form = ({ input }) => {
 			const { text, error } = await response.json()
 			if (response.ok) {
 				console.log(text)
+				outputHandler(text)
 			} else console.log(error)
 		} catch (error) {
 			console.log("Error: ", error)
