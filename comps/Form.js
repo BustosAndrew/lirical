@@ -87,7 +87,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					color='brand.800'
 					placeholder='Type your lyrics here.'
 					_hover={{ borderColor: "brand.800" }}
-					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+					w={["17rem", "sm"]}
 					onChange={(e) => setLyrics(e.target.value)}
 					value={lyrics}
 				></Textarea>
@@ -99,7 +99,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 						rows={8}
 						color='brand.800'
 						placeholder='This text area is editable'
-						sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+						w={["17rem", "sm"]}
 						value={lyrics || transcript}
 						onChange={(e) => setLyrics(e.target.value)}
 					></Textarea>
