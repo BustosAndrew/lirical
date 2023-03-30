@@ -87,6 +87,8 @@ export const Form = ({ input, outputHandler }) => {
 					placeholder='Type your lyrics here.'
 					w='sm'
 					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+					onChange={(e) => setLyrics(e.target.value)}
+					value={lyrics}
 				></Textarea>
 			)
 		else if (val === "recording")
@@ -112,8 +114,7 @@ export const Form = ({ input, outputHandler }) => {
 			)
 	}
 
-	const transcribe = async (event) => {
-		event.preventDefault()
+	const transcribe = async () => {
 		if (input === "file") {
 			const formData = new FormData()
 			formData.append("file", file, file.name)
@@ -135,11 +136,12 @@ export const Form = ({ input, outputHandler }) => {
 		}
 	}
 
-	const submitHandler = async () => {
+	const submitHandler = async (event) => {
+		event.preventDefault()
 		try {
-			const response = await fetch("/api/whisper", {
+			const response = await fetch("/api/lyrics", {
 				method: "POST",
-				body: lyrics,
+				body: JSON.stringify({ text: lyrics }),
 			})
 			const { text, error } = await response.json()
 			if (response.ok) {

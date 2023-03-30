@@ -1,10 +1,10 @@
 import Head from "next/head"
 import { useState } from "react"
-import { Button, Heading, Flex, Center } from "@chakra-ui/react"
+import { Button, Heading, Flex } from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { CustomMenu } from "../comps/CustomMenu"
-import { Form } from "@/comps/Form"
-import { Output } from "@/comps/Output"
+import { Form } from "../comps/Form"
+import { Output } from "../comps/Output"
 
 const steps = [
 	{
@@ -66,13 +66,9 @@ export default function Home() {
 								<Heading textAlign='center' color='brand.800'>
 									Upload Audio
 								</Heading>
-								{indx === 0
-									? steps[0].content(changeInputType)
-									: "text" || indx === 1
-									? steps[1].content(input, outputHandler)
-									: "text" || indx === 2
-									? steps[2].content(output)
-									: null}
+								{(indx === 0 && steps[0].content(changeInputType)) ||
+									(indx === 1 && steps[1].content(input, outputHandler)) ||
+									(indx === 2 && steps[2].content(output))}
 							</Step>
 						))}
 					</Steps>

@@ -6,7 +6,7 @@ export const Output = ({ output }) => {
 			rows={12}
 			color='brand.800'
 			_hover={{ borderColor: "brand.800" }}
-			placeholder={output}
+			value={output}
 			w='sm'
 			sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 		></Textarea>
