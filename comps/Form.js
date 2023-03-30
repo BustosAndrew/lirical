@@ -129,8 +129,6 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 						"Access-Control-Allow-Credentials": true,
 					},
 				})
-				setLyrics(response)
-				return
 				const { text, error } = await response.json()
 				if (response.ok) {
 					setLyrics(text)
