@@ -118,7 +118,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const transcribe = async () => {
 		if (input === "file") {
 			const formData = new FormData()
-			formData.append("file", file, file.name)
+			formData.append("file", file)
 
 			try {
 				const response = await fetch("/api/whisper", {
