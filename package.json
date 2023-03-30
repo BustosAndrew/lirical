@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^2.5.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "chakra-ui-steps": "^2.0.4",
+    "chakra-ui-steps": "^2.1.0",
     "dotenv": "^16.0.3",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
