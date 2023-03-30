@@ -35,12 +35,10 @@ export default function Home() {
 	})
 
 	const changeInputType = (val) => {
-		console.log(val)
 		setInput(val)
 	}
 
 	const outputHandler = (output) => {
-		console.log(output)
 		setOutput(output)
 	}
 

@@ -126,11 +126,9 @@ export const Form = ({ input, outputHandler }) => {
 				})
 				const { text, error } = await response.json()
 				if (response.ok) {
-					console.log(text)
 					setLyrics(text)
-				} else console.log(error)
+				} else setLyrics("Error: " + error)
 			} catch (error) {
-				console.log("Error: ", error)
 				setLyrics("Error: " + error)
 			}
 		}
@@ -145,11 +143,10 @@ export const Form = ({ input, outputHandler }) => {
 			})
 			const { text, error } = await response.json()
 			if (response.ok) {
-				console.log(text)
 				outputHandler(text)
-			} else console.log(error)
+			} else outputHandler(error)
 		} catch (error) {
-			console.log("Error: ", error)
+			outputHandler("Error: " + text)
 		}
 	}
 

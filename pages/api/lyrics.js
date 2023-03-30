@@ -23,10 +23,8 @@ export default async function handler(req, res) {
 			temperature: 1,
 			stream: false,
 		})
-		console.log(completion.data)
 		res.status(200).send({ text: completion.data.choices[0].message.content })
 	} catch (err) {
-		console.log(err)
 		res.status(400).send({ error: err.message })
 	}
 }
