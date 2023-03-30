@@ -85,7 +85,7 @@ export const Form = ({ input, outputHandler }) => {
 					rows={8}
 					color='brand.800'
 					placeholder='Type your lyrics here.'
-					w='sm'
+					w={["17rem", "sm"]}
 					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 					onChange={(e) => setLyrics(e.target.value)}
 					value={lyrics}
