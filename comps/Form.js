@@ -126,6 +126,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					body: formData,
 					headers: {
 						"Access-Control-Allow-Origin": "*",
+						"Access-Control-Allow-Credentials": true,
 					},
 				})
 				const { text, error } = await response.json()
