@@ -3,11 +3,11 @@ const fs = require("fs")
 const FormData = require("form-data")
 import formidable from "formidable"
 
-// export const config = {
-// 	api: {
-// 		bodyParser: false,
-// 	},
-// }
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+}
 
 const key = process.env.OPEN_AI_KEY
 const model = "whisper-1"
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 	const form = new formidable.IncomingForm()
 
 	form.parse(req, async (err, fields, files) => {
-		if (err) return res.status(400).send({ error: err })
+		if (err) return res.status(400).send({ error: "Parse error: " + err })
 		const file = files.file
 		const formData = new FormData()
 		formData.append(
