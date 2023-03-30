@@ -124,6 +124,9 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				const response = await fetch("/api/whisper", {
 					method: "POST",
 					body: formData,
+					headers: {
+						"Access-Control-Allow-Origin": "*",
+					},
 				})
 				const { text, error } = await response.json()
 				if (response.ok) {
