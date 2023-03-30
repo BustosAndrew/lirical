@@ -5,7 +5,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition"
 import styles from "@/styles/Form.module.css"
 
-export const Form = ({ input, outputHandler }) => {
+export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const [file, setFile] = useState()
 	const [recording, setRecording] = useState(false)
 	const [lyrics, setLyrics] = useState("")
@@ -59,12 +59,13 @@ export const Form = ({ input, outputHandler }) => {
 							borderColor='brand.900'
 							_hover={{ borderColor: "brand.800" }}
 							className={styles.upload}
-							maxW={"17rem"}
+							fontSize='.9rem'
 						/>
 						<Button
 							_hover={{ background: "brand.800" }}
 							bgColor='brand.900'
 							onClick={transcribe}
+							isDisabled={!file}
 						>
 							Transcribe
 						</Button>
@@ -74,8 +75,8 @@ export const Form = ({ input, outputHandler }) => {
 						color='brand.800'
 						_hover={{ borderColor: "brand.800" }}
 						placeholder='This text area is editable...'
-						w='sm'
-						sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
+						onChange={(e) => setLyrics(e.target.value)}
+						value={lyrics}
 					></Textarea>
 				</>
 			)
@@ -85,7 +86,8 @@ export const Form = ({ input, outputHandler }) => {
 					rows={8}
 					color='brand.800'
 					placeholder='Type your lyrics here.'
-					w={["17rem", "sm"]}
+					w='sm'
+					_hover={{ borderColor: "brand.800" }}
 					sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 					onChange={(e) => setLyrics(e.target.value)}
 					value={lyrics}
@@ -98,7 +100,8 @@ export const Form = ({ input, outputHandler }) => {
 						rows={8}
 						color='brand.800'
 						placeholder='This text area is editable...'
-						w={["17rem", "sm"]}
+						w='sm'
+						sx={{ "@media max-width: 700px": { maxW: "17rem" } }}
 						value={lyrics || transcript}
 						onChange={(e) => setLyrics(e.target.value)}
 					></Textarea>
@@ -144,6 +147,7 @@ export const Form = ({ input, outputHandler }) => {
 			const { text, error } = await response.json()
 			if (response.ok) {
 				outputHandler(text)
+				toggleSubmitted()
 			} else outputHandler(error)
 		} catch (error) {
 			outputHandler("Error: " + text)
@@ -158,6 +162,7 @@ export const Form = ({ input, outputHandler }) => {
 					_hover={{ background: "brand.800" }}
 					type='submit'
 					bgColor='brand.900'
+					isDisabled={lyrics === ""}
 				>
 					Submit
 				</Button>

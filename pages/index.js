@@ -22,13 +22,13 @@ const steps = [
 	},
 	{
 		label: "Step 2",
-		content: function (val, handler) {
+		content: function (val, handler, toggler) {
 			return (
 				<>
 					<Heading size='lg' mb={5} textAlign='center' color='brand.800'>
 						Input Your Lyrics
 					</Heading>
-					<Form input={val} outputHandler={handler} />
+					<Form input={val} outputHandler={handler} toggleSubmitted={toggler} />
 				</>
 			)
 		},
@@ -54,6 +54,7 @@ export default function Home() {
 	const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
 		initialStep: 0,
 	})
+	const [submitted, setSubmitted] = useState(false)
 
 	const changeInputType = (val) => {
 		setInput(val)
@@ -61,6 +62,10 @@ export default function Home() {
 
 	const outputHandler = (output) => {
 		setOutput(output)
+	}
+
+	const toggleSumbitted = () => {
+		setSubmitted(!submitted)
 	}
 
 	return (
@@ -83,7 +88,8 @@ export default function Home() {
 						{steps.map(({ label }, indx) => (
 							<Step key={label}>
 								{(indx === 0 && steps[0].content(changeInputType)) ||
-									(indx === 1 && steps[1].content(input, outputHandler)) ||
+									(indx === 1 &&
+										steps[1].content(input, outputHandler, toggleSumbitted)) ||
 									(indx === 2 && steps[2].content(output))}
 							</Step>
 						))}
@@ -127,7 +133,7 @@ export default function Home() {
 								bg='brand.900'
 								onClick={nextStep}
 								_hover={{ background: "brand.800" }}
-								isDisabled={!input}
+								isDisabled={!input || (activeStep === 1 && !submitted)}
 							>
 								{activeStep === steps.length - 1 ? "Finish" : "Next"}
 							</Button>
