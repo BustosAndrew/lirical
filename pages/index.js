@@ -4,6 +4,7 @@ import { Button, Heading, Flex, Center } from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { CustomMenu } from "../comps/CustomMenu"
 import { Form } from "@/comps/Form"
+import { Output } from "@/comps/Output"
 
 const steps = [
 	{
@@ -18,7 +19,12 @@ const steps = [
 			return <Form input={val} />
 		},
 	},
-	{ label: "Step 3", content: { html: "three" } },
+	{
+		label: "Step 3",
+		content: function (val) {
+			return <Output output={val} />
+		},
+	},
 ]
 
 export default function Home() {
@@ -31,6 +37,8 @@ export default function Home() {
 		console.log(val)
 		setInput(val)
 	}
+
+	const outputHandler = (output) => {}
 
 	return (
 		<>
