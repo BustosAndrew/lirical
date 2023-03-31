@@ -146,9 +146,9 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				method: "POST",
 				body: JSON.stringify({ text: lyrics }),
 			})
-			const { text, error } = await response.json()
-			// console.log(data)
-			// return
+			const { text, error, data } = await response.json()
+			console.log(data)
+			return
 			if (response.ok) {
 				outputHandler(text)
 				toggleSubmitted()
