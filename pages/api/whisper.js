@@ -23,12 +23,11 @@ export default async function handler(req, res) {
 		// uploadDir: "/tmp",
 	})
 
-	form.parse(req, async (err, fields, files) => {
+	form.parse(req, async (err, fields, file) => {
 		if (err) return res.status(400).send({ error: "Parse error: " + err })
-		res.status(200).send({ data: files })
-		console.log(files.filepath)
-		return
-		const file = files.file
+		// res.status(200).send({ data: files })
+		// console.log(files.filepath)
+		// return
 		const formData = new FormData()
 		formData.append(
 			"file",
