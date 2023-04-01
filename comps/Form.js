@@ -16,7 +16,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	}
 
 	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-		console.log(
+		setLyrics(
 			"Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
 		)
 	}
@@ -146,9 +146,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				method: "POST",
 				body: JSON.stringify({ text: lyrics }),
 			})
-			const { text, error, data } = await response.json()
-			console.log(data)
-			return
+			const { text, error } = await response.json()
 			if (response.ok) {
 				outputHandler(text)
 				toggleSubmitted()

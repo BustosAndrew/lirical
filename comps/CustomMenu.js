@@ -40,14 +40,14 @@ export const CustomMenu = ({ changeInputType }) => {
 				>
 					New Recording
 				</MenuItem>
-				<MenuItem
+				{/* <MenuItem
 					onClick={() => {
 						setMenuVal("file")
 						changeInputType("file")
 					}}
 				>
 					File Upload
-				</MenuItem>
+				</MenuItem> */}
 			</MenuList>
 		</Menu>
 	)
