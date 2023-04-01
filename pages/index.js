@@ -84,7 +84,7 @@ export default function Home() {
 					m='auto'
 					pb={5}
 				>
-					<Steps w='sm' p={5} activeStep={activeStep}>
+					<Steps w='sm' p={2} activeStep={activeStep}>
 						{steps.map(({ label }, indx) => (
 							<Step key={label}>
 								{(indx === 0 && steps[0].content(changeInputType)) ||

@@ -16,10 +16,10 @@ export const CustomMenu = ({ changeInputType }) => {
 				_hover={{ background: "brand.800" }}
 				_active={{ background: "brand.800" }}
 				mb={5}
-				size='lg'
+				size='md'
 			>
 				{(menuVal === "text" && "Text") ||
-					(menuVal === "recording" && "New Recording") ||
+					(menuVal === "recording" && "Record") ||
 					(menuVal === "file" && "File Upload") ||
 					menuVal}
 			</MenuButton>
@@ -38,7 +38,7 @@ export const CustomMenu = ({ changeInputType }) => {
 						changeInputType("recording")
 					}}
 				>
-					New Recording
+					Record
 				</MenuItem>
 				{/* <MenuItem
 					onClick={() => {
