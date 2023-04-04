@@ -1,4 +1,12 @@
-import { Input, Button, VStack, Textarea, HStack } from "@chakra-ui/react"
+import {
+	Input,
+	Button,
+	VStack,
+	Textarea,
+	HStack,
+	Alert,
+	AlertIcon,
+} from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import SpeechRecognition, {
 	useSpeechRecognition,
@@ -9,6 +17,9 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const [file, setFile] = useState()
 	const [recording, setRecording] = useState(false)
 	const [lyrics, setLyrics] = useState("")
+	const [isLoading, setIsLoading] = useState(false)
+	const [alert, setAlert] = useState(false)
+	const [error, setError] = useState("")
 	const { transcript, resetTranscript } = useSpeechRecognition()
 
 	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -141,6 +152,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 
 	const submitHandler = async (event) => {
 		event.preventDefault()
+		setIsLoading(true)
 		try {
 			const response = await fetch("/api/lyrics", {
 				method: "POST",
@@ -150,9 +162,16 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 			if (response.ok) {
 				outputHandler(text)
 				toggleSubmitted()
-			} else outputHandler(error)
+				setAlert(true)
+			} else {
+				setAlert(true)
+				setError(error)
+			}
 		} catch (error) {
-			outputHandler("Error: " + text)
+			setAlert(true)
+			setError(error)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -165,9 +184,22 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					type='submit'
 					bgColor='brand.900'
 					isDisabled={lyrics === ""}
+					isLoading={isLoading}
 				>
 					Submit
 				</Button>
+				{alert &&
+					(error ? (
+						<Alert status='error' variant='solid'>
+							<AlertIcon />
+							{error}
+						</Alert>
+					) : (
+						<Alert status='success' variant='solid'>
+							<AlertIcon />
+							Success! Click Next to see your suggested lyrics.
+						</Alert>
+					))}
 			</VStack>
 		</form>
 	)

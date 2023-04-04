@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Heading, Flex } from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { CustomMenu } from "../comps/CustomMenu"
@@ -68,6 +68,10 @@ export default function Home() {
 		setSubmitted(!submitted)
 	}
 
+	const restart = () => {
+		setSubmitted(!submitted)
+	}
+
 	return (
 		<>
 			<Head>
@@ -100,7 +104,10 @@ export default function Home() {
 								bg='brand.900'
 								mx='auto'
 								size='md'
-								onClick={reset}
+								onClick={() => {
+									reset()
+									restart()
+								}}
 								_hover={{ background: "#f1ecaf" }}
 							>
 								Reset
