@@ -100,7 +100,7 @@ export default function Home() {
 					</Heading>
 					<Steps mt={[0, 0, 20]} w='sm' p={5} activeStep={activeStep}>
 						{steps.map(({ label }, indx) => (
-							<Step key={label}>
+							<Step key={indx}>
 								{(indx === 0 && steps[0].content(changeInputType)) ||
 									(indx === 1 &&
 										steps[1].content(input, outputHandler, toggleSumbitted)) ||
