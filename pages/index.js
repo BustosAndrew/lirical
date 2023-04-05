@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { useEffect, useState } from "react"
-import { Button, Heading, Flex } from "@chakra-ui/react"
+import { Button, Heading, Flex, Text } from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { CustomMenu } from "../comps/CustomMenu"
 import { Form } from "../comps/Form"
@@ -86,9 +86,19 @@ export default function Home() {
 					flexDir='column'
 					textAlign='center'
 					m='auto'
-					pb={5}
+					pb={[5, 5, 190]}
 				>
-					<Steps w='sm' p={2} activeStep={activeStep}>
+					<Heading
+						borderRadius={20}
+						bg='brand.900'
+						py={10}
+						mt={10}
+						px={1}
+						w={["80%", "sm"]}
+					>
+						Welcome to the Lirical App!
+					</Heading>
+					<Steps mt={[0, 0, 20]} w='sm' p={5} activeStep={activeStep}>
 						{steps.map(({ label }, indx) => (
 							<Step key={label}>
 								{(indx === 0 && steps[0].content(changeInputType)) ||
@@ -99,7 +109,10 @@ export default function Home() {
 						))}
 					</Steps>
 					{activeStep === steps.length ? (
-						<Flex p={4}>
+						<Flex direction='column' gap={5} p={4}>
+							<Text fontWeight='bold' color='brand.800'>
+								Would you like to start all over?
+							</Text>
 							<Button
 								bg='brand.900'
 								mx='auto'
