@@ -6,6 +6,8 @@ import {
 	HStack,
 	Alert,
 	AlertIcon,
+	AlertDescription,
+	AlertTitle,
 } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import SpeechRecognition, {
