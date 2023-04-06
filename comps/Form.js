@@ -188,18 +188,21 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				>
 					Submit
 				</Button>
-				{alert &&
-					(error ? (
-						<Alert status='error' variant='solid'>
-							<AlertIcon />
-							{error}
-						</Alert>
-					) : (
-						<Alert status='success' variant='solid'>
-							<AlertIcon />
+				{alert && error ? (
+					<Alert status='error' variant='solid'>
+						<AlertIcon />
+						<AlertTitle>Error!</AlertTitle>
+						<AlertDescription>{error}</AlertDescription>
+					</Alert>
+				) : (
+					<Alert status='success' variant='solid'>
+						<AlertIcon />
+						<AlertTitle>Your browser is outdated!</AlertTitle>
+						<AlertDescription>
 							Success! Click Next to see your suggested lyrics.
-						</Alert>
-					))}
+						</AlertDescription>
+					</Alert>
+				)}
 			</VStack>
 		</form>
 	)
