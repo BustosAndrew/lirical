@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 			],
 			temperature: 0.7,
 			stream: true,
+			max_tokens: 500,
 		})
 		res.status(200).send({ text: completion.data.choices[0].message.content })
 	} catch (err) {
