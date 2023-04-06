@@ -26,6 +26,6 @@ export default async function handler(req, res) {
 		})
 		res.status(200).send({ text: completion.data.choices[0].message.content })
 	} catch (err) {
-		res.status(400).send({ error: err.message })
+		res.status(400).send({ error: err })
 	}
 }
