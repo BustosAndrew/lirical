@@ -168,9 +168,11 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 			} else {
 				setAlert(true)
 				setError(error)
+				console.log(error)
 			}
 		} catch (error) {
 			setAlert(true)
+			console.log(error)
 			setError(error)
 		} finally {
 			setIsLoading(false)
