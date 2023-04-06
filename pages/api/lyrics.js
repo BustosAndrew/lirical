@@ -10,6 +10,14 @@ export default async function handler(req, res) {
 		res.status(405).send({ message: "Only POST requests allowed" })
 		return
 	}
+	const id = setTimeout(
+		() =>
+			res.json({
+				message:
+					"ChatGPT is currently experience slowdowns. Please try again later.",
+			}),
+		10
+	)
 	const { text } = JSON.parse(req.body)
 	try {
 		const completion = await openai.createChatCompletion({
@@ -24,8 +32,9 @@ export default async function handler(req, res) {
 			stream: true,
 			max_tokens: 500,
 		})
+		clearTimeout(id)
 		res.status(200).send({ text: completion.data.choices[0].message.content })
 	} catch (err) {
-		res.status(400).send({ error: err })
+		res.status(400).send({ error: err.message })
 	}
 }
