@@ -1,7 +1,8 @@
 const dotenv = require("dotenv").config()
 const fs = require("fs")
 const FormData = require("form-data")
-import formidable from "formidable"
+const formidable = require("formidable")
+import fetch from "node-fetch"
 
 export const config = {
 	api: {
@@ -20,14 +21,10 @@ export default async function handler(req, res) {
 
 	const form = new formidable.IncomingForm({
 		keepExtensions: true,
-		// uploadDir: "/tmp",
 	})
 
 	form.parse(req, async (err, fields, files) => {
 		if (err) return res.status(400).send({ error: "Parse error: " + err })
-		// res.status(200).send({ data: files.file })
-		// console.log(files.filepath)
-		// return
 		const formData = new FormData()
 		formData.append(
 			"file",
