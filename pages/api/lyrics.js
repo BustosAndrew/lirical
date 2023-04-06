@@ -20,8 +20,8 @@ export default async function handler(req, res) {
 					content: "Suggest lyrics specifically after " + text + "",
 				},
 			],
-			temperature: 1,
-			stream: false,
+			temperature: 0.7,
+			stream: true,
 		})
 		res.status(200).send({ text: completion.data.choices[0].message.content })
 	} catch (err) {
