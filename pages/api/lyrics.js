@@ -12,11 +12,11 @@ export default async function handler(req, res) {
 	}
 	const id = setTimeout(
 		() =>
-			res.json({
-				message:
+			res.status(400).send({
+				error:
 					"ChatGPT is currently experience slowdowns. Please try again later.",
 			}),
-		10000
+		9000
 	)
 	const { text } = JSON.parse(req.body)
 	try {
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 				},
 			],
 			temperature: 0.7,
-			stream: true,
+			stream: false,
 		})
 		clearTimeout(id)
 		res.status(200).send({ text: completion.data.choices[0].message.content })
