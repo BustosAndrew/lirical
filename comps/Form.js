@@ -195,7 +195,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 						<Alert status='error' variant='solid'>
 							<AlertIcon />
 							<AlertTitle>Error!</AlertTitle>
-							<AlertDescription>{error}</AlertDescription>
+							<AlertDescription>Something bad happened</AlertDescription>
 						</Alert>
 					) : (
 						<Alert status='success' variant='solid'>
