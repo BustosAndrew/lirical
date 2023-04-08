@@ -190,7 +190,7 @@ export default function Home() {
 								</AccordionButton>
 							</h2>
 							<AccordionPanel pb={4}>
-								Besides the reason it gives you, it's because Open AI has
+								Besides the reason it gives you, it&apos;s because Open AI has
 								policies that prevent discrimination, harassment, and hate
 								speech. You may have to try again with different lyrics.
 							</AccordionPanel>
