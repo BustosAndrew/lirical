@@ -43,6 +43,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 		} else {
 			SpeechRecognition.stopListening()
 			setRecording(!recording)
+			setLyrics(transcript)
 		}
 	}
 
@@ -187,7 +188,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 					_hover={{ background: "brand.800" }}
 					type='submit'
 					bgColor='brand.900'
-					isDisabled={lyrics === ""}
+					isDisabled={!lyrics}
 					isLoading={isLoading}
 				>
 					Submit
