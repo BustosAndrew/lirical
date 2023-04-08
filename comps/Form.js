@@ -193,14 +193,14 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				>
 					Submit
 				</Button>
-				{alert &&
-					(error ? (
-						<Alert status='error' variant='solid'>
-							<AlertIcon />
-							<AlertTitle>Error!</AlertTitle>
-							<AlertDescription>{error}</AlertDescription>
-						</Alert>
-					) : (
+				{(alert && error && (
+					<Alert status='error' variant='solid'>
+						<AlertIcon />
+						<AlertTitle>Error!</AlertTitle>
+						<AlertDescription>{error}</AlertDescription>
+					</Alert>
+				)) ||
+					(alert && (
 						<Alert status='success' variant='solid'>
 							<AlertIcon />
 							<AlertTitle>Success!</AlertTitle>

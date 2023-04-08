@@ -1,6 +1,17 @@
 import Head from "next/head"
 import { useEffect, useState } from "react"
-import { Button, Heading, Flex, Text } from "@chakra-ui/react"
+import {
+	Button,
+	Heading,
+	Flex,
+	Text,
+	Accordion,
+	AccordionItem,
+	AccordionButton,
+	AccordionPanel,
+	AccordionIcon,
+	Box,
+} from "@chakra-ui/react"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { CustomMenu } from "../comps/CustomMenu"
 import { Form } from "../comps/Form"
@@ -65,7 +76,7 @@ export default function Home() {
 	}
 
 	const toggleSumbitted = () => {
-		setSubmitted(!submitted)
+		setSubmitted(true)
 	}
 
 	const restart = () => {
@@ -159,6 +170,46 @@ export default function Home() {
 							</Button>
 						</Flex>
 					)}
+					<Heading
+						mt={5}
+						w={["80%", "sm"]}
+						justifySelf='left'
+						color='brand.900'
+						size='lg'
+					>
+						Disclaimer
+					</Heading>
+					<Accordion textAlign='left' w={["80%", "sm"]} color='brand.800'>
+						<AccordionItem>
+							<h2>
+								<AccordionButton>
+									<Box as='span' flex='1' textAlign='left'>
+										Why is it saying my lyrics are inappropriate or offensive?
+									</Box>
+									<AccordionIcon />
+								</AccordionButton>
+							</h2>
+							<AccordionPanel pb={4}>
+								Besides the reason it gives you, it's because Open AI has
+								policies that prevent discrimination, harassment, and hate
+								speech. You may have to try again with different lyrics.
+							</AccordionPanel>
+						</AccordionItem>
+
+						<AccordionItem>
+							<h2>
+								<AccordionButton>
+									<Box as='span' flex='1' textAlign='left'>
+										How do I restart from the beginning?
+									</Box>
+									<AccordionIcon />
+								</AccordionButton>
+							</h2>
+							<AccordionPanel pb={4}>
+								Go to step 3, hit Finish and then hit Reset.
+							</AccordionPanel>
+						</AccordionItem>
+					</Accordion>
 				</Flex>
 			</Flex>
 		</>
