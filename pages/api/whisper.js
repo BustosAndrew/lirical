@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 					error:
 						"Whisper is currently experience slowdowns. Please try again later.",
 				}),
-			9000
+			9900
 		)
 		const response = await fetch(
 			"https://api.openai.com/v1/audio/transcriptions",

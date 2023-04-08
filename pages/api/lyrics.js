@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 				error:
 					"ChatGPT is currently experience slowdowns. Please try again later.",
 			}),
-		9000
+		9900
 	)
 	const { text } = JSON.parse(req.body)
 	try {
