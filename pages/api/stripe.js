@@ -1,6 +1,5 @@
 const stripe = require("stripe")(process.env.SK)
 
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
 const endpointSecret = process.env.SS
 
 export const config = {
@@ -20,23 +19,24 @@ export default async function handler(req, res) {
 	const body = await buffer(req)
 	const event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
 
-	// Handle the event
 	switch (event.type) {
+		case "customer.created":
+			const customerCreated = event.data.object
+			res.status(201).send({ object: customerCreated })
+			break
 		case "customer.subscription.created":
 			const subscriptionCreated = event.data.object
-			// Then define and call a function to handle the event payment_intent.succeeded
-			console.log("Subscription created")
+			res.status(201).send({ object: subscriptionCreated })
+
 			break
 		case "customer.subscription.deleted":
 			const subscriptionDeleted = event.data.object
-			// Then define and call a function to handle the event payment_intent.succeeded
-			console.log("Subscription deleted")
+			res.status(200).send({ object: subscriptionDeleted })
 			break
 		default:
 			console.log(`Unhandled event type ${event.type}`)
 	}
 
-	// Return a 200 response to acknowledge receipt of the event
 	res.send()
 }
 
