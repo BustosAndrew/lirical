@@ -14,28 +14,26 @@ export default async function handler(req, res) {
 		return
 	}
 
-	const sig = req.headers["stripe-signature"]
-
 	const body = await buffer(req)
 
-	if (body.text !== undefined) {
-		const { text } = body
+	if (body.text !== null) {
+		const parsedBody = JSON.parse(body)
+		const { text } = parsedBody
 
 		if (text === "portal") {
-			const { customerId } = body
-
-			// This is the url to which the customer will be redirected when they are done
-			// managing their billing with the portal.
-			const returnUrl = "https://app.lirical.xyz"
+			const { customerId } = parsedBody
+			const returnUrl = "http://localhost:3000"
 
 			const portalSession = await stripe.billingPortal.sessions.create({
 				customer: customerId,
+				configuration: process.env.PORTAL,
 				return_url: returnUrl,
 			})
 
-			res.redirect(303, portalSession.url)
+			res.status(307).send({ url: portalSession.url })
 		}
 	} else {
+		const sig = req.headers["stripe-signature"]
 		const event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
 
 		switch (event.type) {
@@ -56,22 +54,22 @@ export default async function handler(req, res) {
 				console.log(`Unhandled event type ${event.type}`)
 		}
 
-		res.send()
+		// res.send()
 	}
+}
 
-	const buffer = (req) => {
-		return new Promise((resolve, reject) => {
-			const chunks = []
+const buffer = (req) => {
+	return new Promise((resolve, reject) => {
+		const chunks = []
 
-			req.on("data", (chunk) => {
-				chunks.push(chunk)
-			})
-
-			req.on("end", () => {
-				resolve(Buffer.concat(chunks))
-			})
-
-			req.on("error", reject)
+		req.on("data", (chunk) => {
+			chunks.push(chunk)
 		})
-	}
+
+		req.on("end", () => {
+			resolve(Buffer.concat(chunks))
+		})
+
+		req.on("error", reject)
+	})
 }
