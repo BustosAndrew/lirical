@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { extendTheme } from "@chakra-ui/react"
 import { StepsTheme as Steps } from "chakra-ui-steps"
 import "regenerator-runtime/runtime"
+import { FirebaseProvider } from "@/firebase/FirebaseProvider"
 
 const colors = {
 	brand: {
@@ -46,8 +47,10 @@ const theme = extendTheme({
 
 export default function App({ Component, pageProps }) {
 	return (
-		<ChakraProvider theme={theme}>
-			<Component {...pageProps} />
-		</ChakraProvider>
+		<FirebaseProvider>
+			<ChakraProvider theme={theme}>
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</FirebaseProvider>
 	)
 }
