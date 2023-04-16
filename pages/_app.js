@@ -4,7 +4,7 @@ import { extendTheme } from "@chakra-ui/react"
 import { StepsTheme as Steps } from "chakra-ui-steps"
 import "regenerator-runtime/runtime"
 import { FirebaseProvider } from "@/firebase/FirebaseProvider"
-import { AuthProvider } from "./components/AuthProvider"
+import { AuthProvider } from "@/firebase/AuthProvider"
 
 const colors = {
 	brand: {

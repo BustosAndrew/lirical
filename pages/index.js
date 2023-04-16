@@ -11,9 +11,11 @@ import {
 	AccordionPanel,
 	AccordionIcon,
 	Box,
+	Link,
 } from "@chakra-ui/react"
+import NextLink from "next/link"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
-import { steps } from "@/steps/steps"
+import { steps } from "@/data/steps"
 
 export default function Home() {
 	const [input, setInput] = useState("")
@@ -55,6 +57,15 @@ export default function Home() {
 					m='auto'
 					pb={[5, 5, 190]}
 				>
+					<Link
+						mt={10}
+						fontSize={20}
+						as={NextLink}
+						color='brand.900'
+						href='/subscribe'
+					>
+						Subscribe
+					</Link>
 					<Heading
 						borderRadius={20}
 						bg='brand.900'
