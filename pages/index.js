@@ -57,7 +57,7 @@ export default function Home() {
 					m='auto'
 					pb={[5, 5, 190]}
 				>
-					<Link
+					{/* <Link
 						mt={10}
 						fontSize={20}
 						as={NextLink}
@@ -65,7 +65,7 @@ export default function Home() {
 						href='/subscribe'
 					>
 						Subscribe
-					</Link>
+					</Link> */}
 					<Heading
 						borderRadius={20}
 						bg='brand.900'
