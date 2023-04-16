@@ -6,14 +6,7 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 } from "firebase/auth"
-import {
-	doc,
-	onSnapshot,
-	setDoc,
-	serverTimestamp,
-	getDocs,
-	collection,
-} from "firebase/firestore"
+import { doc, onSnapshot, setDoc, serverTimestamp } from "firebase/firestore"
 
 import { FirebaseContext } from "./FirebaseProvider"
 
@@ -33,15 +26,6 @@ export const AuthProvider = (props) => {
 
 	const registerUser = async (email, password, displayName = "") => {
 		try {
-			let accountExists = false
-
-			const querySnapshot = await getDocs(collection(myFS, PROFILE_COLLECTION))
-			querySnapshot.forEach((doc) => {
-				if (doc.data().displayName === displayName) accountExists = true
-			})
-
-			if (accountExists) return false
-
 			let userCredential = await createUserWithEmailAndPassword(
 				myAuth,
 				email,
@@ -66,16 +50,8 @@ export const AuthProvider = (props) => {
 		}
 	}
 
-	const loginUser = async (username, password) => {
+	const loginUser = async (email, password) => {
 		try {
-			let email = ""
-			const querySnapshot = await getDocs(collection(myFS, PROFILE_COLLECTION))
-			querySnapshot.forEach((doc) => {
-				if (doc.data().displayName === username) email = doc.data().email
-			})
-
-			if (!email) email = username
-
 			let userCredential = await signInWithEmailAndPassword(
 				myAuth,
 				email,
@@ -93,7 +69,7 @@ export const AuthProvider = (props) => {
 			setUser(user)
 			return true
 		} catch (ex) {
-			let msg = `Login failure for email(${username}: ${ex.message})`
+			let msg = `Login failure for email(${email}: ${ex.message})`
 			console.error(msg)
 			setAuthErrorMessage(ex.message)
 			return false
