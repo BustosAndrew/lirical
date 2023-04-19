@@ -14,6 +14,8 @@ export const CustomCard = ({ padding }) => {
 	const { profile } = useContext(AuthContext)
 
 	const openCheckout = async () => {
+		if (!profile) return window.alert("You must be logged in to subscribe.")
+
 		const uid = profile.uid
 		try {
 			const res = await fetch("/api/stripe", {
