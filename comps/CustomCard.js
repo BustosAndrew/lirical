@@ -9,10 +9,11 @@ import {
 	VStack,
 } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 export const CustomCard = ({ padding }) => {
 	const { profile } = useContext(AuthContext)
+	const [loading, setLoading] = useState(false)
 
 	const openCheckout = async () => {
 		if (!profile) return window.alert("You must be logged in to subscribe.")
@@ -29,6 +30,7 @@ export const CustomCard = ({ padding }) => {
 		} catch (err) {
 			console.log(err)
 		}
+		setLoading(false)
 	}
 
 	return (
@@ -52,7 +54,12 @@ export const CustomCard = ({ padding }) => {
 			</CardBody>
 			<CardFooter>
 				<VStack>
-					<Button onClick={openCheckout} shadow='md' bg='brand.800'>
+					<Button
+						isLoading={loading}
+						onClick={openCheckout}
+						shadow='md'
+						bg='brand.800'
+					>
 						Subscribe
 					</Button>
 					<Text fontWeight='bold'>
