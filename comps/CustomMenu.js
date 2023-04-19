@@ -42,7 +42,7 @@ export const CustomMenu = ({ changeInputType }) => {
 				>
 					Record
 				</MenuItem>
-				{profile.status === "active" && (
+				{profile && profile.status === "active" && (
 					<MenuItem
 						onClick={() => {
 							setMenuVal("file")
