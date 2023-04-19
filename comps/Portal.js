@@ -13,8 +13,8 @@ export const Portal = ({ logout }) => {
 				body: JSON.stringify({ text: "portal", customerId: customerId }),
 			})
 
-			const data = await res.json()
-			window.location.href = data.url
+			const { url } = await res.json()
+			window.location.href = url
 		} catch (err) {
 			console.log(err)
 		}
