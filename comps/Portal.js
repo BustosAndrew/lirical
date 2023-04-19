@@ -1,12 +1,14 @@
 import { Button, Heading, Text } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 export const Portal = ({ logout }) => {
 	const { profile } = useContext(AuthContext)
+	const [loading, setLoading] = useState(false)
 
 	const openPortal = async () => {
 		const customerId = profile && profile.customerId
+		setLoading(true)
 		try {
 			const res = await fetch("/api/stripe", {
 				method: "POST",
@@ -18,6 +20,7 @@ export const Portal = ({ logout }) => {
 		} catch (err) {
 			console.log(err)
 		}
+		setLoading(false)
 	}
 
 	return (
@@ -35,7 +38,7 @@ export const Portal = ({ logout }) => {
 				{(profile?.end && profile.end.toLocaleDateString()) || "N/A"}
 			</Text>
 			{profile?.customerId && (
-				<Button bg='brand.800' onClick={openPortal}>
+				<Button isLoading={loading} bg='brand.800' onClick={openPortal}>
 					Manage
 				</Button>
 			)}
