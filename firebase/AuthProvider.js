@@ -33,12 +33,13 @@ export const AuthProvider = (props) => {
 			)
 			let user = userCredential.user
 
-			let userDocRef = doc(myFS, "users", user.uid)
+			let userDocRef = doc(myFS, PROFILE_COLLECTION, user.uid)
 			let userDocData = {
 				uid: user.uid,
 				email: email,
 				displayName: displayName,
 				dateCreated: serverTimestamp(),
+				active: false,
 			}
 
 			setDoc(userDocRef, userDocData)

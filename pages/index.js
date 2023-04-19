@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import {
 	Button,
 	Heading,
@@ -12,6 +12,8 @@ import {
 	AccordionIcon,
 	Box,
 	Link,
+	HStack,
+	Divider,
 } from "@chakra-ui/react"
 import NextLink from "next/link"
 import { Step, Steps, useSteps } from "chakra-ui-steps"
@@ -48,34 +50,26 @@ export default function Home() {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<Flex h='100vh' justifyContent='center' alignItems='center'>
-				<Flex
-					justifyContent='center'
-					alignItems='center'
-					flexDir='column'
-					textAlign='center'
-					m='auto'
-					pb={[5, 5, 190]}
-				>
-					{/* <Link
-						mt={10}
-						fontSize={20}
-						as={NextLink}
-						color='brand.900'
-						href='/subscribe'
-					>
-						Subscribe
-					</Link> */}
-					<Heading
-						borderRadius={20}
-						bg='brand.900'
-						py={10}
-						mt={10}
-						px={1}
-						w={["80%", "sm"]}
-					>
-						Welcome to the Lirical App!
-					</Heading>
+			<Flex h='100vh' justifyContent='center' alignItems='flex-start'>
+				<Flex alignItems='center' flexDir='column' textAlign='center' pb={5}>
+					<HStack alignContent='center' mt={10}>
+						<Link fontSize={20} as={NextLink} color='brand.900' href='/'>
+							Home
+						</Link>
+						<Divider orientation='vertical' borderColor='brand.900' h={8} />
+						<Link
+							fontSize={20}
+							as={NextLink}
+							color='brand.900'
+							href='/subscribe'
+						>
+							Subscribe
+						</Link>
+						<Divider orientation='vertical' borderColor='brand.900' h={8} />
+						<Link fontSize={20} as={NextLink} color='brand.900' href='/account'>
+							Account
+						</Link>
+					</HStack>
 					<Steps mt={[0, 0, 20]} w='sm' p={5} activeStep={activeStep}>
 						{steps.map(({ label }, indx) => (
 							<Step key={indx}>
@@ -146,7 +140,7 @@ export default function Home() {
 					>
 						Disclaimer
 					</Heading>
-					<Accordion textAlign='left' w={["80%", "sm"]} color='brand.800'>
+					<Accordion textAlign='left' w={["80%", "xs"]} color='brand.800'>
 						<AccordionItem>
 							<h2>
 								<AccordionButton>

@@ -6,18 +6,19 @@ import {
 	Button,
 	Heading,
 	Text,
-	Link,
-	VStack,
 } from "@chakra-ui/react"
-import NextLink from "next/link"
+import { AuthContext } from "@/firebase/AuthProvider"
+import { useContext } from "react"
 
-export const CustomCard = () => {
-	const openPortal = async () => {
-		const customerId = "cus_NiWek7T98xFomH"
+export const CustomCard = ({ padding }) => {
+	const { profile } = useContext(AuthContext)
+
+	const openCheckout = async () => {
+		const uid = profile.uid
 		try {
 			const res = await fetch("/api/stripe", {
 				method: "POST",
-				body: JSON.stringify({ text: "portal", customerId: customerId }),
+				body: JSON.stringify({ text: "checkout", uid: uid }),
 			})
 
 			const data = await res.json()
@@ -29,32 +30,27 @@ export const CustomCard = () => {
 
 	return (
 		<Card
-			color='brand.800'
-			borderColor='brand.900'
-			bg='none'
-			variant='outline'
+			mx={[5, 0]}
+			gap={5}
+			bg='brand.900'
 			align='center'
 			textAlign='center'
+			py={padding}
 		>
-			<CardHeader>
-				<Heading size='md'>Gain Access to More Features!</Heading>
+			<CardHeader w='95%' borderBottom={"1px solid black"}>
+				<Heading size='md'>Gain Access to Audio Transcription!</Heading>
 			</CardHeader>
-			<CardBody>
-				<Text>Upload audio files to be transcribed by Whisper.</Text>
+			<CardBody w='95%' borderBottom={"1px solid black"}>
+				<Text fontWeight='bold'>
+					Upload audio files to be transcribed by Whisper.
+				</Text>
+				<Heading>$4.99/mo USD</Heading>
+				<Text fontSize='sm'>Cancel anytime.</Text>
 			</CardBody>
 			<CardFooter>
-				<VStack>
-					<Link
-						as={NextLink}
-						href='https://buy.stripe.com/test_8wM3dibzl26j3yo288'
-					>
-						<Button colorScheme='blue'>Subscribe</Button>
-					</Link>
-					<br />
-					<Button onClick={openPortal} colorScheme='blue'>
-						Portal
-					</Button>
-				</VStack>
+				<Button onClick={openCheckout} shadow='md' bg='brand.800'>
+					Subscribe
+				</Button>
 			</CardFooter>
 		</Card>
 	)

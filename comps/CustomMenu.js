@@ -1,9 +1,11 @@
 import { Menu, MenuButton, MenuItem, MenuList, Button } from "@chakra-ui/react"
 import { ChevronDownIcon } from "@chakra-ui/icons"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
+import { AuthContext } from "@/firebase/AuthProvider"
 
 export const CustomMenu = ({ changeInputType }) => {
 	const [menuVal, setMenuVal] = useState("Select Input Type")
+	const { profile } = useContext(AuthContext)
 
 	useEffect(() => changeInputType(""), [])
 
@@ -40,14 +42,16 @@ export const CustomMenu = ({ changeInputType }) => {
 				>
 					Record
 				</MenuItem>
-				{/* <MenuItem
-					onClick={() => {
-						setMenuVal("file")
-						changeInputType("file")
-					}}
-				>
-					File Upload
-				</MenuItem> */}
+				{profile.status === "active" && (
+					<MenuItem
+						onClick={() => {
+							setMenuVal("file")
+							changeInputType("file")
+						}}
+					>
+						File Upload
+					</MenuItem>
+				)}
 			</MenuList>
 		</Menu>
 	)
