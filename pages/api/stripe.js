@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
 	const body = await buffer(req)
 
-	if (!JSON.parse(body).text) {
+	if (JSON.parse(body).text) {
 		const parsedBody = JSON.parse(body)
 		const { text } = parsedBody
 
