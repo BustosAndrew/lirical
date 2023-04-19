@@ -61,17 +61,11 @@ export default async function handler(req, res) {
 				})
 
 				const paymentStatus = await session.payment_status
-				const users = await db.collection("users").get()
 
 				if (paymentStatus === "paid") {
-					users.forEach((user) => {
-						if (user.data().uid === uid) {
-							db.collection("users").doc(user.id).update({
-								status: "active",
-								customerId: session.customer,
-							})
-						}
-					})
+					db.collection("users")
+						.doc(uid)
+						.update({ status: "active", customerId: session.customer })
 				}
 				res.status(307).send({ url: session.url })
 			} catch (err) {
