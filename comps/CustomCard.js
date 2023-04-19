@@ -23,9 +23,9 @@ export const CustomCard = ({ padding }) => {
 				method: "POST",
 				body: JSON.stringify({ text: "checkout", uid: uid }),
 			})
-			const data = await res.json()
-			if (res.ok) window.location.href = data.url
-			else console.log(res.json())
+			const { url, err } = await res.json()
+			if (res.ok) window.location.href = url
+			else console.log(err)
 		} catch (err) {
 			console.log(err)
 		}
