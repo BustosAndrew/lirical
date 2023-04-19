@@ -50,7 +50,7 @@ export default function Account() {
 							Account
 						</Link>
 					</HStack>
-					{(signedIn && <Portal logout={logout} />) ||
+					{(profile && signedIn && <Portal logout={logout} />) ||
 						(!profile && loggingIn && (
 							<Login
 								togglePage={togglePage}

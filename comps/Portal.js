@@ -24,17 +24,17 @@ export const Portal = ({ logout }) => {
 		<>
 			<Heading color='brand.800'>Subscription Overview</Heading>
 			<Text color='brand.800'>
-				Subscription Status: {(profile && profile.status) || "N/A"}
+				Subscription Status: {profile?.status || "N/A"}
 			</Text>
 			<Text color='brand.800'>
 				Subscription Renews:{" "}
-				{(profile.renews && profile.renews.toLocaleDateString()) || "N/A"}
+				{(profile?.renews && profile.renews.toLocaleDateString()) || "N/A"}
 			</Text>
 			<Text color='brand.800'>
 				Subscription Ends:{" "}
-				{(profile.end && profile.end.toLocaleDateString()) || "N/A"}
+				{(profile?.end && profile.end.toLocaleDateString()) || "N/A"}
 			</Text>
-			{profile.customerId && (
+			{profile?.customerId && (
 				<Button bg='brand.800' onClick={openPortal}>
 					Manage
 				</Button>
