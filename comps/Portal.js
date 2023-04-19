@@ -28,11 +28,11 @@ export const Portal = ({ logout }) => {
 			</Text>
 			<Text color='brand.800'>
 				Subscription Renews:{" "}
-				{(profile && profile.renews.toLocaleDateString()) || "N/A"}
+				{(profile.renews && profile.renews.toLocaleDateString()) || "N/A"}
 			</Text>
 			<Text color='brand.800'>
 				Subscription Ends:{" "}
-				{(profile && profile.end.toLocaleDateString()) || "N/A"}
+				{(profile.end && profile.end.toLocaleDateString()) || "N/A"}
 			</Text>
 			{profile.customerId && (
 				<Button bg='brand.800' onClick={openPortal}>

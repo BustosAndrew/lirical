@@ -3,7 +3,7 @@ import NextLink from "next/link"
 import Head from "next/head"
 import { Login } from "@/comps/Login"
 import { Signup } from "@/comps/Signup"
-import { Portal } from "@chakra-ui/react"
+import { Portal } from "@/comps/Portal"
 import { AuthContext } from "@/firebase/AuthProvider"
 import { useState, useContext, useEffect } from "react"
 
@@ -50,7 +50,7 @@ export default function Account() {
 							Account
 						</Link>
 					</HStack>
-					{(profile && signedIn && <Portal logout={logout} />) ||
+					{(signedIn && <Portal logout={logout} />) ||
 						(!profile && loggingIn && (
 							<Login
 								togglePage={togglePage}
