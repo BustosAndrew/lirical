@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 					billing_address_collection: "auto",
 					line_items: [
 						{
-							price: price,
+							price: price.id,
 							// For metered billing, do not pass quantity
 							quantity: 1,
 						},
