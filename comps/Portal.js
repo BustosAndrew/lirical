@@ -6,7 +6,7 @@ export const Portal = ({ logout }) => {
 	const { profile } = useContext(AuthContext)
 
 	const openPortal = async () => {
-		const customerId = profile.customerId
+		const customerId = profile && profile.customerId
 		try {
 			const res = await fetch("/api/stripe", {
 				method: "POST",
@@ -24,13 +24,15 @@ export const Portal = ({ logout }) => {
 		<>
 			<Heading color='brand.800'>Subscription Overview</Heading>
 			<Text color='brand.800'>
-				Subscription Status: {profile.status || "N/A"}
+				Subscription Status: {(profile && profile.status) || "N/A"}
 			</Text>
 			<Text color='brand.800'>
-				Subscription Renews: {profile.renews.toLocaleDateString() || "N/A"}
+				Subscription Renews:{" "}
+				{(profile && profile.renews.toLocaleDateString()) || "N/A"}
 			</Text>
 			<Text color='brand.800'>
-				Subscription Ends: {profile.end.toLocaleDateString() || "N/A"}
+				Subscription Ends:{" "}
+				{(profile && profile.end.toLocaleDateString()) || "N/A"}
 			</Text>
 			{profile.customerId && (
 				<Button bg='brand.800' onClick={openPortal}>
