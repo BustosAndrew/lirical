@@ -174,7 +174,7 @@ export default function Home() {
 							<h2>
 								<AccordionButton>
 									<Box as='span' flex='1' textAlign='left'>
-										I'm having an issue with my account.
+										There is an issue with my account.
 									</Box>
 									<AccordionIcon />
 								</AccordionButton>
