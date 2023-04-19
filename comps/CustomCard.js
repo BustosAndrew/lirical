@@ -6,6 +6,7 @@ import {
 	Button,
 	Heading,
 	Text,
+	VStack,
 } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
 import { useContext } from "react"
@@ -32,12 +33,12 @@ export const CustomCard = ({ padding }) => {
 
 	return (
 		<Card
-			mx={[5, 0]}
 			gap={5}
 			bg='brand.900'
 			align='center'
 			textAlign='center'
 			py={padding}
+			w={["xs", "sm"]}
 		>
 			<CardHeader w='95%' borderBottom={"1px solid black"}>
 				<Heading size='md'>Gain Access to Audio Transcription!</Heading>
@@ -50,9 +51,15 @@ export const CustomCard = ({ padding }) => {
 				<Text fontSize='sm'>Cancel anytime.</Text>
 			</CardBody>
 			<CardFooter>
-				<Button onClick={openCheckout} shadow='md' bg='brand.800'>
-					Subscribe
-				</Button>
+				<VStack>
+					<Button onClick={openCheckout} shadow='md' bg='brand.800'>
+						Subscribe
+					</Button>
+					<Text fontWeight='bold'>
+						NOTICE: subscribe button currently isn't working when logged in. A
+						fix will soon be applied.
+					</Text>
+				</VStack>
 			</CardFooter>
 		</Card>
 	)
