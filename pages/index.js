@@ -170,6 +170,20 @@ export default function Home() {
 								Go to step 3, hit Finish and then hit Reset.
 							</AccordionPanel>
 						</AccordionItem>
+						<AccordionItem>
+							<h2>
+								<AccordionButton>
+									<Box as='span' flex='1' textAlign='left'>
+										I'm having an issue with my account.
+									</Box>
+									<AccordionIcon />
+								</AccordionButton>
+							</h2>
+							<AccordionPanel pb={4}>
+								Please email me at bustosandrew28@gmail.com with any account
+								issues.
+							</AccordionPanel>
+						</AccordionItem>
 					</Accordion>
 				</Flex>
 			</Flex>
