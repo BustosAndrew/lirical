@@ -38,7 +38,6 @@ export default async function handler(req, res) {
 
 				const portalSession = await stripe.billingPortal.sessions.create({
 					customer: customerId,
-					configuration: process.env.PORTAL,
 					return_url: returnUrl,
 				})
 				console.log(portalSession.url)
