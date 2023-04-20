@@ -105,9 +105,6 @@ export default async function handler(req, res) {
 					subscriptionUpdated.status === "canceled" ? "inactive" : "active"
 				metadata = subscriptionDeleted.metadata
 
-				if (status === "active") renews = subscriptionUpdated.current_period_end
-				else end = subscriptionUpdated.current_period_end
-
 				db.collection("users").doc(metadata.uid).update({ status: status })
 
 				res.status(200).send()
