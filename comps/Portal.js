@@ -1,4 +1,4 @@
-import { Button, Heading, Text, VStack } from "@chakra-ui/react"
+import { Button, Heading, Text, HStack } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
 import { useContext, useState } from "react"
 
@@ -34,7 +34,7 @@ export const Portal = ({ logout }) => {
 			<Text color='brand.800'>
 				Subscription Ends: {new Date(profile?.end).toDateString() || "N/A"}
 			</Text>
-			<VStack>
+			<HStack>
 				{profile?.customerId && (
 					<Button isLoading={loading} bg='brand.800' onClick={openPortal}>
 						Manage
@@ -43,7 +43,7 @@ export const Portal = ({ logout }) => {
 				<Button bg='brand.800' onClick={logout}>
 					Logout
 				</Button>
-			</VStack>
+			</HStack>
 		</>
 	)
 }
