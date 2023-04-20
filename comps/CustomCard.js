@@ -62,10 +62,6 @@ export const CustomCard = ({ padding }) => {
 					>
 						Subscribe
 					</Button>
-					<Text fontWeight='bold'>
-						NOTICE: subscribe button currently isn't working when logged in. A
-						fix will soon be applied.
-					</Text>
 				</VStack>
 			</CardFooter>
 		</Card>
