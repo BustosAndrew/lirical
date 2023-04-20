@@ -42,16 +42,17 @@ export const CustomMenu = ({ changeInputType }) => {
 				>
 					Record
 				</MenuItem>
-				{profile?.status === "active" && (
-					<MenuItem
-						onClick={() => {
-							setMenuVal("file")
-							changeInputType("file")
-						}}
-					>
-						File Upload
-					</MenuItem>
-				)}
+				{profile?.status === "active" ||
+					(profile?.status === "expiring" && (
+						<MenuItem
+							onClick={() => {
+								setMenuVal("file")
+								changeInputType("file")
+							}}
+						>
+							File Upload
+						</MenuItem>
+					))}
 			</MenuList>
 		</Menu>
 	)
