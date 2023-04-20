@@ -14,7 +14,6 @@ export const Portal = ({ logout }) => {
 				method: "POST",
 				body: JSON.stringify({ text: "portal", customerId: customerId }),
 			})
-			console.log(await res.json())
 			const { url } = await res.json()
 			window.location.href = url
 		} catch (err) {
