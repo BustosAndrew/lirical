@@ -1,4 +1,4 @@
-import { Button, Heading, Text } from "@chakra-ui/react"
+import { Button, Heading, Text, VStack } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
 import { useContext, useState } from "react"
 
@@ -7,14 +7,14 @@ export const Portal = ({ logout }) => {
 	const [loading, setLoading] = useState(false)
 
 	const openPortal = async () => {
-		const customerId = profile && profile.customerId
+		const customerId = profile?.customerId
 		setLoading(true)
 		try {
 			const res = await fetch("/api/stripe", {
 				method: "POST",
 				body: JSON.stringify({ text: "portal", customerId: customerId }),
 			})
-
+			console.log(await res.json())
 			const { url } = await res.json()
 			window.location.href = url
 		} catch (err) {
@@ -30,21 +30,21 @@ export const Portal = ({ logout }) => {
 				Subscription Status: {profile?.status || "N/A"}
 			</Text>
 			<Text color='brand.800'>
-				Subscription Renews:{" "}
-				{(profile?.renews && profile.renews.toLocaleDateString()) || "N/A"}
+				Subscription Renews: {new Date(profile?.renews).toDateString() || "N/A"}
 			</Text>
 			<Text color='brand.800'>
-				Subscription Ends:{" "}
-				{(profile?.end && profile.end.toLocaleDateString()) || "N/A"}
+				Subscription Ends: {new Date(profile?.end).toDateString() || "N/A"}
 			</Text>
-			{profile?.customerId && (
-				<Button isLoading={loading} bg='brand.800' onClick={openPortal}>
-					Manage
+			<VStack>
+				{profile?.customerId && (
+					<Button isLoading={loading} bg='brand.800' onClick={openPortal}>
+						Manage
+					</Button>
+				)}
+				<Button bg='brand.800' onClick={logout}>
+					Logout
 				</Button>
-			)}
-			<Button bg='brand.800' onClick={logout}>
-				Logout
-			</Button>
+			</VStack>
 		</>
 	)
 }

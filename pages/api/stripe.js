@@ -4,9 +4,10 @@ const { getFirestore } = require("firebase-admin/firestore")
 
 const serviceAccount = JSON.parse(process.env.ADMIN || {})
 
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-})
+if (admin.apps.length === 0)
+	admin.initializeApp({
+		credential: admin.credential.cert(serviceAccount),
+	})
 
 const db = getFirestore()
 
@@ -31,16 +32,20 @@ export default async function handler(req, res) {
 		const { text } = parsedBody
 
 		if (text === "portal") {
-			const { customerId } = parsedBody
-			const returnUrl = "https://app.lirical.xyz/account"
+			try {
+				const { customerId } = parsedBody
+				const returnUrl = "https://app.lirical.xyz/account"
 
-			const portalSession = await stripe.billingPortal.sessions.create({
-				customer: customerId,
-				configuration: process.env.PORTAL,
-				return_url: returnUrl,
-			})
-
-			res.status(307).send({ url: portalSession.url })
+				const portalSession = await stripe.billingPortal.sessions.create({
+					customer: customerId,
+					configuration: process.env.PORTAL,
+					return_url: returnUrl,
+				})
+				console.log(portalSession.url)
+				res.status(307).send({ url: portalSession.url })
+			} catch (err) {
+				res.status(500).send({ err: err })
+			}
 		} else if (text === "checkout") {
 			try {
 				const { uid } = parsedBody
@@ -58,15 +63,9 @@ export default async function handler(req, res) {
 					mode: "subscription",
 					success_url: `https://app.lirical.xyz/account`,
 					cancel_url: `https://app.lirical.xyz/account`,
+					metadata: { uid: uid },
 				})
 
-				const paymentStatus = await session.payment_status
-
-				if (paymentStatus === "paid") {
-					db.collection("users")
-						.doc(uid)
-						.update({ status: "active", customerId: session.customer })
-				}
 				res.status(307).send({ url: session.url })
 			} catch (err) {
 				res.status(500).send({ err: err })
@@ -76,61 +75,49 @@ export default async function handler(req, res) {
 		const sig = req.headers["stripe-signature"]
 		const event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
 		let status = ""
-		const users = await db.collection("users").get()
 		let customer = ""
 		let renews = null
 		let end = null
+		let metadata = {}
 
 		switch (event.type) {
 			case "customer.subscription.created":
 				const subscriptionCreated = event.data.object
 				customer = subscriptionCreated.customer
 				status = subscriptionCreated.status
-				renews = new Date(subscriptionCreated.current_period_end)
+				renews = subscriptionCreated.current_period_end
+				metadata = subscriptionCreated.metadata
 
-				users.forEach((user) => {
-					if (user.data().customerId === customer) {
-						db.collection("users")
-							.doc(user.id)
-							.update({ status: status, renews: renews })
-					}
-				})
+				db.collection("users")
+					.doc(metadata.uid)
+					.update({ status: status, renews: renews, customerId: customer })
 
 				res.status(201).send()
 				break
 			case "customer.subscription.deleted":
 				const subscriptionDeleted = event.data.object
-				customer = subscriptionDeleted.customer
+				metadata = subscriptionDeleted.metadata
 
-				users.forEach((user) => {
-					if (user.data().customerId === customer) {
-						db.collection("users")
-							.doc(user.id)
-							.update({ status: "inactive", renews: null, end: null })
-					}
-				})
+				db.collection("users")
+					.doc(metadata.uid)
+					.update({ status: "inactive", renews: null, end: null })
 
-				res.status(201).send()
+				res.status(200).send()
 				break
 			case "customer.subscription.updated":
 				const subscriptionUpdated = event.data.object
-				customer = subscriptionUpdated.customer
 				status =
 					subscriptionUpdated.status === "canceled" ? "inactive" : "active"
+				metadata = subscriptionDeleted.metadata
 
-				if (status === "active")
-					renews = new Date(subscriptionUpdated.current_period_end)
-				else end = new Date(subscriptionUpdated.current_period_end)
+				if (status === "active") renews = subscriptionUpdated.current_period_end
+				else end = subscriptionUpdated.current_period_end
 
-				users.forEach((user) => {
-					if (user.data().customerId === customer) {
-						db.collection("users")
-							.doc(user.id)
-							.update({ status: status, renews: renews, end: end })
-					}
-				})
+				db.collection("users")
+					.doc(metadata.uid)
+					.update({ status: status, renews: renews, end: end })
 
-				res.status(201).send()
+				res.status(200).send()
 				break
 			default:
 				console.log(`Unhandled event type ${event.type}`)
