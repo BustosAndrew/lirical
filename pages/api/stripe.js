@@ -102,7 +102,7 @@ export default async function handler(req, res) {
 			case "customer.subscription.updated":
 				const subscriptionUpdated = event.data.object
 				status =
-					subscriptionUpdated.status === "canceled" ? "inactive" : "active"
+					subscriptionUpdated.status === "canceled" ? "expiring" : "active"
 				metadata = subscriptionDeleted.metadata
 
 				db.collection("users").doc(metadata.uid).update({ status: status })
