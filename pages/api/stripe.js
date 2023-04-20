@@ -75,8 +75,6 @@ export default async function handler(req, res) {
 		const event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
 		let status = ""
 		let customer = ""
-		let renews = null
-		let end = null
 		let metadata = {}
 
 		switch (event.type) {
@@ -89,7 +87,7 @@ export default async function handler(req, res) {
 
 				db.collection("users")
 					.doc(metadata.uid)
-					.update({ status: status, renews: renews, customerId: customer })
+					.update({ status: status, customerId: customer })
 
 				res.status(201).send()
 				break
@@ -97,9 +95,7 @@ export default async function handler(req, res) {
 				const subscriptionDeleted = event.data.object
 				metadata = subscriptionDeleted.metadata
 
-				db.collection("users")
-					.doc(metadata.uid)
-					.update({ status: "inactive", renews: null, end: null })
+				db.collection("users").doc(metadata.uid).update({ status: "inactive" })
 
 				res.status(200).send()
 				break
@@ -112,9 +108,7 @@ export default async function handler(req, res) {
 				if (status === "active") renews = subscriptionUpdated.current_period_end
 				else end = subscriptionUpdated.current_period_end
 
-				db.collection("users")
-					.doc(metadata.uid)
-					.update({ status: status, renews: renews, end: end })
+				db.collection("users").doc(metadata.uid).update({ status: status })
 
 				res.status(200).send()
 				break

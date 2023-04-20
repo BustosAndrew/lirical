@@ -28,12 +28,6 @@ export const Portal = ({ logout }) => {
 			<Text color='brand.800'>
 				Subscription Status: {profile?.status || "N/A"}
 			</Text>
-			<Text color='brand.800'>
-				Subscription Renews: {new Date(profile?.renews).toDateString() || "N/A"}
-			</Text>
-			<Text color='brand.800'>
-				Subscription Ends: {new Date(profile?.end).toDateString() || "N/A"}
-			</Text>
 			<HStack>
 				{profile?.customerId && (
 					<Button isLoading={loading} bg='brand.800' onClick={openPortal}>
