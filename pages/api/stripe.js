@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 	if (text === "portal") {
 		try {
 			const { customerId } = parsedBody
-			const returnUrl = "https://app.lirical.xyz/account"
+			const returnUrl = "http://localhost:3000/account"
 
 			const portalSession = await stripe.billingPortal.sessions.create({
 				customer: customerId,
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
 					},
 				],
 				mode: "subscription",
-				success_url: "https://app.lirical.xyz/account",
-				cancel_url: "https://app.lirical.xyz/account",
+				success_url: "http://localhost:3000/account",
+				cancel_url: "http://localhost:3000/account",
 				metadata: { uid: uid },
 			})
 
