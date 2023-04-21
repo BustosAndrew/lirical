@@ -38,7 +38,6 @@ export default async function handler(req, res) {
 			const subscriptionCreated = event.data.object
 			customer = subscriptionCreated.customer
 			status = subscriptionCreated.status
-			renews = subscriptionCreated.current_period_end
 			metadata = subscriptionCreated.metadata
 
 			db.collection("users")
