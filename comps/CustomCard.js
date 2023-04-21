@@ -7,16 +7,37 @@ import {
 	Heading,
 	Text,
 	VStack,
+	useToast,
+	Box,
+	HStack,
 } from "@chakra-ui/react"
+import { WarningIcon } from "@chakra-ui/icons"
 import { AuthContext } from "@/firebase/AuthProvider"
 import { useContext, useState } from "react"
 
 export const CustomCard = ({ padding }) => {
 	const { profile } = useContext(AuthContext)
 	const [loading, setLoading] = useState(false)
+	const toast = useToast()
 
 	const openCheckout = async () => {
-		if (!profile) return window.alert("You must be logged in to subscribe.")
+		if (!profile)
+			return toast({
+				render: () => (
+					<Box color='black' px={5} py={3} bg='brand.800' borderRadius={5}>
+						<HStack alignItems='flex-start'>
+							<WarningIcon boxSize={5} />
+							<VStack alignItems='flex-start' gap={0}>
+								<Text lineHeight={1} fontWeight='bold'>
+									Cannot subscribe.
+								</Text>
+								<Text lineHeight={1}>You must be logged in to subscribe.</Text>
+							</VStack>
+						</HStack>
+					</Box>
+				),
+				duration: 3000,
+			})
 		setLoading(true)
 		const uid = profile.uid
 		try {
