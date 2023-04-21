@@ -5,6 +5,7 @@ import { StepsTheme as Steps } from "chakra-ui-steps"
 import "regenerator-runtime/runtime"
 import { FirebaseProvider } from "@/firebase/FirebaseProvider"
 import { AuthProvider } from "@/firebase/AuthProvider"
+import { Analytics } from "@vercel/analytics/react"
 
 const colors = {
 	brand: {
@@ -52,6 +53,7 @@ export default function App({ Component, pageProps }) {
 			<AuthProvider>
 				<ChakraProvider theme={theme}>
 					<Component {...pageProps} />
+					<Analytics />
 				</ChakraProvider>
 			</AuthProvider>
 		</FirebaseProvider>
