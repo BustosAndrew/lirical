@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 			console.log(`Unhandled event type ${event.type}`)
 	}
 
-	// res.send()
+	res.send()
 }
 
 const buffer = (req) => {
