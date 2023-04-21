@@ -39,7 +39,7 @@ export const AuthProvider = (props) => {
 				email: email,
 				displayName: displayName,
 				dateCreated: serverTimestamp(),
-				active: false,
+				status: "inactive",
 			}
 
 			setDoc(userDocRef, userDocData)
