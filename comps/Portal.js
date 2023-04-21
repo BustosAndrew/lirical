@@ -1,10 +1,19 @@
-import { Button, Heading, Text, HStack } from "@chakra-ui/react"
+import { Button, Heading, Text, HStack, Badge } from "@chakra-ui/react"
 import { AuthContext } from "@/firebase/AuthProvider"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 export const Portal = ({ logout }) => {
 	const { profile } = useContext(AuthContext)
 	const [loading, setLoading] = useState(false)
+	const [scheme, setScheme] = useState("red")
+
+	useEffect(() => {
+		if (profile?.status === "active") {
+			setScheme("green")
+		} else if (profile?.status === "expiring") {
+			setScheme("yellow")
+		}
+	}, [profile?.status])
 
 	const openPortal = async () => {
 		const customerId = profile?.customerId
@@ -25,8 +34,9 @@ export const Portal = ({ logout }) => {
 	return (
 		<>
 			<Heading color='brand.800'>Subscription Overview</Heading>
-			<Text color='brand.800'>
-				Subscription Status: {profile?.status || "N/A"}
+			<Text fontSize='xl' color='brand.800'>
+				Subscription Status:{" "}
+				{<Badge colorScheme={scheme}>{profile?.status}</Badge> || "N/A"}
 			</Text>
 			<HStack>
 				{profile?.customerId && (

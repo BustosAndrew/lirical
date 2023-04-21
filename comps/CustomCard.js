@@ -54,14 +54,21 @@ export const CustomCard = ({ padding }) => {
 			</CardBody>
 			<CardFooter>
 				<VStack>
-					<Button
-						isLoading={loading}
-						onClick={openCheckout}
-						shadow='md'
-						bg='brand.800'
-					>
-						Subscribe
-					</Button>
+					{profile?.status === "active" || profile?.status === "expiring" ? (
+						<>
+							<Text>You are subscribed.</Text>
+							<Text>Go to Account to manage your subscription.</Text>
+						</>
+					) : (
+						<Button
+							isLoading={loading}
+							onClick={openCheckout}
+							shadow='md'
+							bg='brand.800'
+						>
+							Subscribe
+						</Button>
+					)}
 				</VStack>
 			</CardFooter>
 		</Card>
