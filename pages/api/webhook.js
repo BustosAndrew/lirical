@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 			metadata = subscriptionCreated.metadata
 
 			db.collection("users")
-				.doc(metadata.uid)
+				.doc(`${metadata.uid}`)
 				.update({ status: status, customerId: customer })
 
 			res.status(201).send()
@@ -50,7 +50,9 @@ export default async function handler(req, res) {
 			const subscriptionDeleted = event.data.object
 			metadata = subscriptionDeleted.metadata
 
-			db.collection("users").doc(metadata.uid).update({ status: "inactive" })
+			db.collection("users")
+				.doc(`${metadata.uid}`)
+				.update({ status: "inactive" })
 
 			res.status(200).send()
 			break
@@ -59,7 +61,7 @@ export default async function handler(req, res) {
 			status = subscriptionUpdated.status === "canceled" ? "expiring" : "active"
 			metadata = subscriptionDeleted.metadata
 
-			db.collection("users").doc(metadata.uid).update({ status: status })
+			db.collection("users").doc(`${metadata.uid}`).update({ status: status })
 
 			res.status(200).send()
 			break
