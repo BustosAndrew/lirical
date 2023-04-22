@@ -1,8 +1,11 @@
 import { Textarea } from "@chakra-ui/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export const Output = ({ output }) => {
-	const [result, setResult] = useState(output)
+	const [result, setResult] = useState("")
+	useEffect(() => {
+		setResult(output)
+	}, [output])
 	return (
 		<Textarea
 			rows={12}

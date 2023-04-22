@@ -8,9 +8,8 @@ import {
 	AlertIcon,
 	AlertDescription,
 	AlertTitle,
-	Text,
 } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import SpeechRecognition, {
 	useSpeechRecognition,
 } from "react-speech-recognition"
@@ -23,7 +22,6 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [alert, setAlert] = useState(false)
 	const [error, setError] = useState("")
-	const [stanzas, setStanzas] = useState(0)
 	const { transcript, resetTranscript } = useSpeechRecognition()
 
 	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -160,44 +158,39 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 		setIsLoading(true)
 		setStanzas(0)
 		setAlert(false)
-		try {
-			const response = await fetch("/api/lyrics", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ text: lyrics }),
-			})
-			if (!response.ok) {
-				setAlert(true)
-				setError(response.statusText)
-				setIsLoading(false)
-				console.log(error)
-				return
-			}
-			const data = response.body
-			if (!data) {
-				console.log("No data returned")
-				setAlert(true)
-				setIsLoading(false)
-				setError("No data returned")
-				return
-			}
-
-			const reader = data.getReader()
-			const decoder = new TextDecoder()
-			let done = false
-
-			while (!done) {
-				const { value, done: doneReading } = await reader.read()
-				done = doneReading
-				const chunkValue = decoder.decode(value)
-				if (chunkValue.includes("\n\n")) setStanzas((prev) => prev + 1)
-				outputHandler(chunkValue)
-			}
-			setStanzas((prev) => prev + 1)
-		} finally {
-			toggleSubmitted()
+		const response = await fetch("/api/lyrics", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ text: lyrics }),
+		})
+		if (!response.ok) {
+			setAlert(true)
+			setError(response.statusText)
+			setIsLoading(false)
+			console.log(error)
+			return
+		}
+		const data = response.body
+		if (!data) {
+			console.log("No data returned")
 			setAlert(true)
 			setIsLoading(false)
+			setError("No data returned")
+			return
+		}
+
+		const reader = data.getReader()
+		const decoder = new TextDecoder()
+		let done = false
+		toggleSubmitted()
+		setAlert(true)
+		setIsLoading(false)
+
+		while (!done) {
+			const { value, done: doneReading } = await reader.read()
+			done = doneReading
+			const chunkValue = decoder.decode(value)
+			outputHandler(chunkValue)
 		}
 	}
 
@@ -214,7 +207,6 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				>
 					Submit
 				</Button>
-				<Text color='brand.800'>Stanzas created: {stanzas}</Text>
 				{(alert && error && (
 					<Alert status='error' variant='solid'>
 						<AlertIcon />
