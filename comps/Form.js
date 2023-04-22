@@ -132,16 +132,12 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const transcribe = async () => {
 		if (input === "file") {
 			const formData = new FormData()
-			formData.append("file", file)
+			formData.append("file", file, file.name)
 
 			try {
 				const response = await fetch("/api/whisper", {
 					method: "POST",
 					body: formData,
-					headers: {
-						"Access-Control-Allow-Origin": "*",
-						"Access-Control-Allow-Credentials": true,
-					},
 				})
 				const { text, error } = await response.json()
 				if (response.ok) {
@@ -156,7 +152,6 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const submitHandler = async (event) => {
 		event.preventDefault()
 		setIsLoading(true)
-		setStanzas(0)
 		setAlert(false)
 		const response = await fetch("/api/lyrics", {
 			method: "POST",
