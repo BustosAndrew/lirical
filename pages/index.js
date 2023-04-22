@@ -140,7 +140,12 @@ export default function Home() {
 					>
 						Disclaimer
 					</Heading>
-					<Accordion textAlign='left' w={["80%", "xs"]} color='brand.800'>
+					<Accordion
+						allowToggle
+						textAlign='left'
+						w={["80%", "xs"]}
+						color='brand.800'
+					>
 						<AccordionItem>
 							<h2>
 								<AccordionButton>
