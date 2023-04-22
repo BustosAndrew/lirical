@@ -8,6 +8,7 @@ import {
 	AlertIcon,
 	AlertDescription,
 	AlertTitle,
+	Text,
 } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import SpeechRecognition, {
@@ -22,6 +23,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [alert, setAlert] = useState(false)
 	const [error, setError] = useState("")
+	const [stanzas, setStanzas] = useState(0)
 	const { transcript, resetTranscript } = useSpeechRecognition()
 
 	if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -156,26 +158,45 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 	const submitHandler = async (event) => {
 		event.preventDefault()
 		setIsLoading(true)
+		setStanzas(0)
+		setAlert(false)
 		try {
 			const response = await fetch("/api/lyrics", {
 				method: "POST",
+				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ text: lyrics }),
 			})
-			const { text, error } = await response.json()
-			if (response.ok) {
-				outputHandler(text)
-				toggleSubmitted()
+			if (!response.ok) {
 				setAlert(true)
-			} else {
-				setAlert(true)
-				setError(error)
+				setError(response.statusText)
+				setIsLoading(false)
 				console.log(error)
+				return
 			}
-		} catch (error) {
-			setAlert(true)
-			console.log(error)
-			setError(error)
+			const data = response.body
+			if (!data) {
+				console.log("No data returned")
+				setAlert(true)
+				setIsLoading(false)
+				setError("No data returned")
+				return
+			}
+
+			const reader = data.getReader()
+			const decoder = new TextDecoder()
+			let done = false
+
+			while (!done) {
+				const { value, done: doneReading } = await reader.read()
+				done = doneReading
+				const chunkValue = decoder.decode(value)
+				if (chunkValue.includes("\n\n")) setStanzas((prev) => prev + 1)
+				outputHandler(chunkValue)
+			}
+			setStanzas((prev) => prev + 1)
 		} finally {
+			toggleSubmitted()
+			setAlert(true)
 			setIsLoading(false)
 		}
 	}
@@ -193,6 +214,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 				>
 					Submit
 				</Button>
+				<Text color='brand.800'>Stanzas created: {stanzas}</Text>
 				{(alert && error && (
 					<Alert status='error' variant='solid'>
 						<AlertIcon />

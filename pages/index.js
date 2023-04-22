@@ -32,7 +32,7 @@ export default function Home() {
 	}
 
 	const outputHandler = (output) => {
-		setOutput(output)
+		setOutput((prev) => prev + output)
 	}
 
 	const toggleSumbitted = () => {
