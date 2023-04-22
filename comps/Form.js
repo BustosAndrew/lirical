@@ -67,7 +67,7 @@ export const Form = ({ input, outputHandler, toggleSubmitted }) => {
 							required
 							type='file'
 							name='file'
-							accept='audio/*'
+							accept='audio/*, .m4a, .mpga'
 							color='brand.800'
 							onChange={changeFile}
 							borderColor='brand.900'
