@@ -1,11 +1,6 @@
 // import { Configuration, OpenAIApi } from "openai"
 import { OpenAIStream } from "../../helpers/OpenAIStream"
 
-// const configuration = new Configuration({
-// 	apiKey: process.env.OPEN_AI_KEY,
-// })
-// const openai = new OpenAIApi(configuration)
-
 export const config = {
 	runtime: "edge",
 }
@@ -15,14 +10,7 @@ export default async function handler(req, res) {
 		res.status(405).send({ message: "Only POST requests allowed" })
 		return
 	}
-	// const id = setTimeout(
-	// 	() =>
-	// 		res.status(400).send({
-	// 			error:
-	// 				"ChatGPT is currently experience slowdowns. Please try again later.",
-	// 		}),
-	// 	9900
-	// )
+
 	const { text } = await req.json()
 	try {
 		const payload = {
