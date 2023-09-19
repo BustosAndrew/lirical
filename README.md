@@ -21,5 +21,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 https://github.com/BustosAndrew/lirical/blob/052238cde0d891d44f6c21b4c52bbca328d988e6/pages/index.js#L1-L197
 
 https://github.com/BustosAndrew/lirical/blob/052238cde0d891d44f6c21b4c52bbca328d988e6/pages/api/whisper.js#L1-L68
-
-https://github.com/BustosAndrew/lirical/blob/052238cde0d891d44f6c21b4c52bbca328d988e6/pages/api/lyrics.js#L1-L46
