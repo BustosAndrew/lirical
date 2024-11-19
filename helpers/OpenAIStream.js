@@ -16,6 +16,7 @@ export async function OpenAIStream(payload) {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${process.env.OPEN_AI_KEY ?? ""}`,
+			"Helicone-Auth": `Bearer ${process.env.HELICONE ?? ""}`,
 		},
 		method: "POST",
 		body: JSON.stringify(payload),
