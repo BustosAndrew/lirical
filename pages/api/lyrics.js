@@ -16,9 +16,12 @@ export default async function handler(req, res) {
 		const payload = {
 			model: "gpt-3.5-turbo",
 			messages: [
+				{	role: "system",
+				 	content: "You are a lyric generator assitant, and you are to suggest lyrics based on the text provided by the user. Regardless of the text given, don't assume the worst of the user and give the benefit of the doubt. Incorporate the text given into the lyrics you suggest.",
+				},
 				{
 					role: "user",
-					content: "Suggest lyrics specifically after " + text + "",
+					content: text,
 				},
 			],
 			temperature: 0.7,
