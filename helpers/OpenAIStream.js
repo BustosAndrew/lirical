@@ -12,7 +12,7 @@ export async function OpenAIStream(payload) {
 
 	// const completion = await openai.createChatCompletion(payload)
 
-	const res = await fetch("https://api.openai.com/v1/chat/completions", {
+	const res = await fetch("https://oai.helicone.ai/v1/chat/completions", {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${process.env.OPEN_AI_KEY ?? ""}`,
